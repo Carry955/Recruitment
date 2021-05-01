@@ -1,5 +1,6 @@
 package com.carry.recruitment.interceptor;
 
+import com.carry.recruitment.entity.Stu;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,8 +10,8 @@ public class StuInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         try{
-            String stu_id = (String)request.getSession().getAttribute("stu");
-            if(stu_id != null){
+            Stu stu = (Stu)request.getSession().getAttribute("stu");
+            if(stu != null){
                 return true;
             }
             response.sendRedirect("/");

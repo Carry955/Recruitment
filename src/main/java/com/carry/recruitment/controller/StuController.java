@@ -55,8 +55,8 @@ public class StuController {
 
     @RequestMapping(value = "/resume", method = RequestMethod.GET)
     public String getResume(Model model, HttpServletRequest request, Resume resume){
-            String stu_id = (String)request.getSession().getAttribute("stu_id");
-            ArrayList<Resume> resumes = stuService.getResume(stu_id);
+            Stu stu = (Stu)request.getSession().getAttribute("stu");
+            ArrayList<Resume> resumes = stuService.getResume(stu.getId());
             model.addAttribute("resume", resumes.get(0));
             return "stu/myResume";
     }
@@ -68,18 +68,18 @@ public class StuController {
 
     @RequestMapping(value="/applied", method = RequestMethod.GET)
     public String applied(Model model, HttpServletRequest request){
-        String stu_id = (String)request.getSession().getAttribute("stu_id");
-        ArrayList<Apply> applys = stuService.getapplys(stu_id);
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
+        ArrayList<Apply> applys = stuService.getapplys(stu.getId());
         model.addAttribute("applys", applys);
         return "stu/myDelivery";
     }
     @RequestMapping(value = "/apply/{job_id}", method = RequestMethod.GET)
     public String apply(Model model, HttpServletRequest request, @PathVariable int job_id){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String stu_id = (String)request.getSession().getAttribute("stu_id");
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
         String posttime = df.format(new Date());
-        Resume resume = stuService.getResume(stu_id).get(0);
-        Apply apply = new Apply(stu_id, posttime, "已投递", new Job(job_id), resume);
+        Resume resume = stuService.getResume(stu.getId()).get(0);
+        Apply apply = new Apply(stu.getId(), posttime, "已投递", new Job(job_id), resume);
         stuService.apply(apply);
         return index(model, request);
     }
@@ -91,25 +91,25 @@ public class StuController {
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
     public String favorite(Model model, HttpServletRequest request){
-        String stu_id = (String)request.getSession().getAttribute("stu_id");
-        ArrayList<Favorite> favorites = stuService.getFavorites(stu_id);
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
+        ArrayList<Favorite> favorites = stuService.getFavorites(stu.getId());
         model.addAttribute("favorites", favorites);
         return "stu/myFavorite";
     }
     @RequestMapping(value = "addfavorite/{job_id}", method = RequestMethod.GET)
     public String addFavorite(Model model, HttpServletRequest request,@PathVariable int job_id){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String stu_id = (String)request.getSession().getAttribute("stu_id");
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
         String settime = df.format(new Date());
-        Favorite favorite = new Favorite(stu_id, new Job(job_id), settime);
+        Favorite favorite = new Favorite(stu.getId(), new Job(job_id), settime);
         stuService.addFavorite(favorite);
         return index(model, request);
     }
 
     @RequestMapping(value = "/delfavorite/{favorite_id}", method = RequestMethod.GET)
     public String delFavorite(Model model, HttpServletRequest request, @PathVariable int favorite_id){
-        String stu_id = (String)request.getSession().getAttribute("stu_id");
-        Favorite favorite = new Favorite(favorite_id, stu_id);
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
+        Favorite favorite = new Favorite(favorite_id, stu.getId());
         stuService.delFavorite(favorite);
         return "redirect:/favorite";
     }
