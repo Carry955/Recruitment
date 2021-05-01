@@ -20,7 +20,6 @@ import java.util.*;
 
 @Controller
 public class ComController {
-
     @Autowired
     private ComService comService;
 

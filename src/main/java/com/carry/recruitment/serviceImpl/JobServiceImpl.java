@@ -3,11 +3,16 @@ package com.carry.recruitment.serviceImpl;
 import com.carry.recruitment.entity.Job;
 import com.carry.recruitment.mapper.JobMapper;
 import com.carry.recruitment.service.JobService;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("jobService")
 public class JobServiceImpl implements JobService {
@@ -26,8 +31,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public ArrayList<Job> search(String keyword, String city, String category) {
-        return jobMapper.searchJob(keyword, city, category);
+    public Map<String, Object> search(String keyword, String city, String category, int page, int rows) {
+        Page pg = PageHelper.startPage(page, rows);
+        Map<String, Object> map = new HashMap<>();
+        map.put("jobs", jobMapper.searchJobWithCom(keyword, city, category));
+        map.put("total", pg.getPages());
+        return map;
     }
 
     @Override

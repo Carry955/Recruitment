@@ -25,61 +25,85 @@
             height: 400px;
         }
     </style>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            // var remind = [[${remind}]];
-            // if(remind == true){
-            //     $('#toast').toast('show');
-            // }
-
-            $('#search-btn').on("click", function () {
-                var keyword = $('#keyword').val();
-                var city = $('#city').val();
-                var category = $('#category').val();
-                $.ajax({
-                    type: "POST",
-                    url: "/search",
-                    data: {
-                        "keyword": keyword,
-                        "city": city,
-                        "category": category
-                    },
-                    dataType: "json",
-                    success: function (data) {
-                        $('#jobs').empty();
-                        for (var i=0; i<data.length; i++){
-                            var job = data[i];
-                            $('#jobs').append(
-                                '<div class="card mb-4" >'+
-                                    '<div class="card-body row">'+
-                                        '<div class="col-10">'+
-                                            '<h6 class="mb-2">'+
-                                                '<a href="#" class="text-dark">'+job.name+'</a>'+
-                                                '<span class="badge badge-success ml-3 p-1">'+job.category+'</span>'+
-                                            '</h6>'+
-                                            '<p class="text-muted mb-0"><i class="bi bi-building mr-2"></i>'+job.company.name+'</p>'+
-                                            '<ul class="list-inline mb-0">'+
-                                                '<li class="list-inline-item mr-3">'+
-                                                    '<p class="text-muted mb-0"><i class="bi bi-geo-alt-fill mr-2"></i>'+job.city+'</p>'+
-                                                '</li>'+
-                                                '<li class="list-inline-item">'+
-                                                    '<p class="text-muted mb-0"><i class="bi bi-clock mr-2"></i>'+job.settime+'</p>'+
-                                                '</li>'+
-                                            '</ul>'+
-                                        '</div>'+
-                                        '<div class="col-2">'+
-                                            '<h5 class="text-danger">'+job.salary+'</h5>'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '<a href="'+'/detail/'+job.id+'" class="stretched-link"></a>'+
-                                '</div>'
-                            );
-                        }
+    <script>
+        var page = 1;
+        var total;
+        function jumpToPage(mPage){
+            if(mPage != page){
+                page = mPage;
+                pageShow(page);
+            }
+        }
+        function pageShow(page){
+            var keyword = $('#keyword').val();
+            var city = $('#city').val();
+            var category = $('#category').val();
+            getJobs( page, keyword, city, category);
+        }
+        function getJobs( page, keyword = '', city = '', category = ''){
+            $.ajax({
+                type: "POST",
+                url: "/search/"+page,
+                data: {
+                    "keyword": keyword,
+                    "city": city,
+                    "category": category
+                },
+                dataType: "json",
+                success: function (data) {
+                    total = data.total;
+                    $('#jobs').empty();
+                    $('#pagination ul').empty();
+                    if(total==0){
+                        return;
                     }
-                });
+                    var jobs = data.jobs;
+                    for (var i=0; i<jobs.length; i++){
+                        var job = jobs[i];
+                        $('#jobs').append(
+                            '<div class="card mb-4" >'+
+                            '<div class="card-body row">'+
+                            '<div class="col-9">'+
+                            '<h6 class="mb-2">'+
+                            '<a href="#" class="text-dark">'+job.name+'</a>'+
+                            '<span class="badge badge-success ml-3 p-1">'+job.category+'</span>'+
+                            '</h6>'+
+                            '<p class="text-muted mb-0"><i class="bi bi-building mr-2"></i>'+job.company.name+'</p>'+
+                            '<ul class="list-inline mb-0">'+
+                            '<li class="list-inline-item mr-3">'+
+                            '<p class="text-muted mb-0"><i class="bi bi-geo-alt-fill mr-2"></i>'+job.city+'</p>'+
+                            '</li>'+
+                            '<li class="list-inline-item">'+
+                            '<p class="text-muted mb-0"><i class="bi bi-clock mr-2"></i>'+job.settime+'</p>'+
+                            '</li>'+
+                            '</ul>'+
+                            '</div>'+
+                            '<div class="col-3">'+
+                            '<h5 class="text-danger">'+job.salary+'</h5>'+
+                            '</div>'+
+                            '</div>'+
+                            '<a href="'+'/detail/'+job.id+'" class="stretched-link"></a>'+
+                            '</div>'
+                        );
+                    }
+                    $('#pagination ul').append(
+                        '<li id="prePage" class="page-item"><a class="page-link">上一页</a></li>'
+                    )
+                    for(var i=1; i<=total; i++){
+                        $('#pagination ul').append(
+                            '<li class="page-item"><a class="page-link" href="javascript:void(0);" onclick="jumpToPage('+i+')">'+i+'</a></li>'
+                        );
+                    }
+                    $('#pagination ul').append(
+                        '<li id="nextPage" class="page-item"><a class="page-link">下一页</a></li>'
+                    )
+                    $('#pagination ul>li').eq(page).addClass("active");
+                    $('body,html').animate({
+                        scrollTop: 0
+                        }, 250);
+                }
             });
-
-        })
+        }
     </script>
 </head>
 <body>
@@ -107,8 +131,8 @@
                     </li>
                 </ul>
             </div>
-            <a th:href="@{/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
-            <button th:unless="${checked}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
+            <a th:href="@{/logout}"><img th:if="${stu}" class="rounded-circle" th:src="@{''+${stu.img}}" style="width:30px; height: 30px;"></a>
+            <button th:unless="${stu}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
         </nav>
     </div>
     <!-- 登录框 -->
@@ -196,10 +220,11 @@
                             <div class="input-group-text">城市</div>
                         </div>
                         <select id="city" class="form-control" name="city">
-                            <option>杭州</option>
-                            <option>上海</option>
-                            <option>北京</option>
-                            <option>深圳</option>
+                            <option value="">不限</option>
+                            <option value="杭州">杭州</option>
+                            <option value="上海">上海</option>
+                            <option value="北京">北京</option>
+                            <option value="深圳">深圳</option>
                         </select>
                     </div>
                     <div class="form-group input-group">
@@ -207,9 +232,10 @@
                             <div class="input-group-text">类别</div>
                         </div>
                         <select id="category" class="form-control" name="category">
-                            <option>全职</option>
-                            <option>兼职</option>
-                            <option>实习</option>
+                            <option value="">不限</option>
+                            <option value="全职">全职</option>
+                            <option value="兼职">兼职</option>
+                            <option value="实习">实习</option>
                         </select>
                     </div>
                     <input id="search-btn" class="btn btn-primary w-100" type="button" value="搜索"/>
@@ -249,15 +275,31 @@
                 <div id="pagination">
                     <nav>
                         <ul class="pagination d-flex justify-content-center">
-                            <li class="page-item"><a class="page-link">上一页</a></li>
-                            <li class="page-item"><a class="page-link">1</a></li>
-                            <li class="page-item"><a class="page-link">2</a></li>
-                            <li class="page-item"><a class="page-link">下一页</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        pageShow(page)
+        $('#search-btn').on("click", function () {
+            page = 1;
+            pageShow(page);
+        });
+        $(document).on("click", "#prePage", function(){
+            if(page > 1){
+                page -= 1;
+                pageShow(page);
+            }
+        })
+        $(document).on("click", "#nextPage", function(){
+            if(page < total){
+                page +=1;
+                pageShow(page);
+            }
+        })
+    </script>
 </body>
+
 </html>

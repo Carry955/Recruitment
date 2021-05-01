@@ -15,6 +15,13 @@
         <collection property="require" javaType="java.util.ArrayList" ofType="String" select="com.carry.recruitment.mapper.JobMapper.getReq" column="job_id=id">
         </collection>
     </resultMap>
+    <resultMap id="JobWithComMap" type="Job">
+        <association property="company" column="company_id" javaType="Company" select="com.carry.recruitment.mapper.CompanyMapper.getCompany">
+        </association>
+    </resultMap>
+    <select id="getAll" resultType="Job">
+        select * from t_job;
+    </select>
     <select id="getJobsByComId" resultType="Job">
         select * from t_job where company_id = #{company_id};
     </select>
@@ -29,8 +36,12 @@
         select * from t_job where id = #{job_id}
     </select>
 
-    <select id="searchJob" resultMap="JobMap">
-        select * from t_job where name like concat('%', #{keyword}, '%') and city like concat('%', #{city}, '%') and category = #{category}
+    <select id="searchJobWithComDescReq" resultMap="JobMap">
+        select * from t_job where name like concat('%', #{keyword}, '%') and city like concat('%', #{city}, '%') and category like concat('%', #{category}, '%')
+    </select>
+
+    <select id="searchJobWithCom" resultMap="JobWithComMap">
+        select * from t_job where name like concat('%', #{keyword}, '%') and city like concat('%', #{city}, '%') and category like concat('%', #{category}, '%')
     </select>
 
     <insert id="addJob" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.carry.recruitment.entity.Job">

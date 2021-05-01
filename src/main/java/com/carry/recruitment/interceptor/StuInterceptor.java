@@ -2,6 +2,7 @@ package com.carry.recruitment.interceptor;
 
 import com.carry.recruitment.entity.Stu;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,5 +20,11 @@ public class StuInterceptor implements HandlerInterceptor {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
+        modelAndView.getModelMap().addAttribute("stu", stu);
     }
 }

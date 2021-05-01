@@ -21,13 +21,21 @@ public class StuController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model, HttpServletRequest request){
+        try{
+            Stu stu = (Stu)request.getSession().getAttribute("stu");
+            if(stu != null){
+                model.addAttribute("stu", stu);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "stu/index";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, Stu stu){
         stuService.login(stu, request);
-        return index(model, request);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/logout", method=RequestMethod.GET)
@@ -36,14 +44,14 @@ public class StuController {
         return index(model, request);
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    @RequestMapping(value = "/search/{page}", method = RequestMethod.POST)
     @ResponseBody
-    public ArrayList<Job> search(Model model, HttpServletRequest request){
+    public Map<String, Object> search(Model model, HttpServletRequest request, @PathVariable int page){
         String keyword = request.getParameter("keyword");
         String city = request.getParameter("city");
         String category = request.getParameter("category");
-        ArrayList<Job> jobs = jobService.search(keyword, city, category);
-        return jobs;
+        Map<String, Object> map = jobService.search(keyword, city, category, page, 5);
+        return map;
     }
 
     @RequestMapping(value = "/detail/{job_id}", method = RequestMethod.GET)

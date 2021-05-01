@@ -9,9 +9,11 @@ import java.util.List;
 @Mapper
 public interface JobMapper {
     public List<Job> selectAll();
+    public List<Job> getAll();
     public ArrayList<Job> getJobsByComId(int company_id);
     public Job getJob(int job_id);
-    public ArrayList<Job> searchJob(String keyword, String city, String category);
+    public ArrayList<Job> searchJobWithComDescReq(String keyword, String city, String category);
+    public ArrayList<Job> searchJobWithCom(String keyword, String city, String category);
     public int addJob(Job job);
     public int addDesc(int job_id, List<String> descs);
     public int addReq(int job_id, List<String> reqs);

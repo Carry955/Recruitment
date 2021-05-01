@@ -42,8 +42,8 @@
 						</li>
 					</ul>
 				</div>
-				<a th:href="@{/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
-				<button th:unless="${checked}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
+				<a th:href="@{/logout}"><img th:if="${stu}" class="rounded-circle" th:src="@{''+${stu.img}}" style="width:30px; height: 30px;"></a>
+				<button th:unless="${stu}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
 			</nav>
 		</div>
 		
