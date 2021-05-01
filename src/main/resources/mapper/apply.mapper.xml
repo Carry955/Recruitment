@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carry.recruitment.mapper.ApplyMapper">
+    <select id="getApplys" resultMap="ApplyMap">
+        select * from t_applied where stu_id=#{stu_id};
+    </select>
+    <resultMap id="ApplyMap" type="Apply">
+        <association property="job" column="job_id" javaType="Job" select="com.carry.recruitment.mapper.JobMapper.getJob">
+        </association>
+        <association property="resume" column="resume_id" javaType="Resume" select="com.carry.recruitment.mapper.ResumeMapper.getResume">
+        </association>
+    </resultMap>
+    <select id="getAppliesByComId" resultMap="ApplyMap">
+        select * from t_applied where company_id = #{company_id};
+    </select>
+    <insert id="apply">
+        insert into t_applied(stu_id, posttime, state, job_id, resume_id, company_id) values(
+            #{stu_id}, #{posttime}, #{state}, #{job.id}, #{resume.id}, (select company_id from t_job where id = #{job.id})
+        );
+    </insert>
+    <delete id="revoke">
+        delete from t_applied where id=#{id}
+    </delete>
+</mapper>

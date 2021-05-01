@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carry.recruitment.mapper.FavoriteMapper">
+    <select id="getAll" resultMap="FavoriteMap">
+        select * from t_favorite where stu_id=#{stu_id}
+    </select>
+    <resultMap id="FavoriteMap" type="Favorite">
+        <association property="job" column="job_id" javaType="Job" select="com.carry.recruitment.mapper.JobMapper.getJob">
+        </association>
+    </resultMap>
+    <insert id="addFav">
+        insert into t_favorite(stu_id, job_id, settime) values(
+            #{stu_id}, #{job.id}, #{settime}
+        );
+    </insert>
+    <delete id="delFav">
+        delete from t_favorite where id=#{id} and stu_id=#{stu_id};
+    </delete>
+</mapper>

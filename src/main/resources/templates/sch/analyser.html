@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>数据查看</title>
+		<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.0.2/echarts.min.js"></script>
+		<style type="text/css">
+			*{
+				text-decoration: none;
+				list-style: none;
+			}
+			a{
+				cursor: pointer;
+			}
+			#login-box .modal-dialog{
+				width: 360px;
+			}
+			.carousel-item img{
+				height: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 页头 -->
+		<div class="container" id="page-header">
+			<nav class="mb-3 navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+				<a class="navbar-brand mr-auto" th:href="@{/}">大学生招聘就业网</a>
+				<div class="collapse navbar-collapse nav-item">
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">我是教师</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  	<a class="dropdown-item" th:href="@{/}">我是学生</a>
+							<a class="dropdown-item" th:href="@{/com}">我是HR</a>
+						</div>
+					</div>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/sch/stumng}">学生管理</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/sch/credit}">授权管理</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link active" th:href="@{#}">数据查看</a>
+						</li>
+					</ul>
+				</div>
+				<a th:href="@{/sch/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+			</nav>
+		</div>
+		<!-- 页身 -->
+		<div class="container d-flex justify-content-around" style="flex-wrap: wrap">
+			<div id="pic-1" style="width: 500px; height: 400px;" class="p-3 rounded-lg bg-light"></div>
+			<div id="pic-2" style="width: 500px; height: 400px;" class="p-3 rounded-lg bg-light"></div>
+			<div id="pic-3" style="width: 1000px; height: 400px;" class="p-3 rounded-lg bg-light mt-3"></div>
+			<script type="text/javascript">
+				var pic1 = echarts.init(document.getElementById('pic-1'));
+				var pic2 = echarts.init(document.getElementById('pic-2'));
+				var pic3 = echarts.init(document.getElementById('pic-3'));
+				var option1 = {
+					title: {
+						text: '学生就业情况统计图',
+						left: 'center'
+					},
+					tooltip: {
+						trigger: 'item'
+					},
+					legend: {
+						orient: 'vertical',
+						left: 'left'
+					},
+					series: [{
+						name: '就业情况',
+						type: 'pie',
+						radius: '50%',
+						data: [
+							{value: 100, name: "兼职中"},
+							{value: 120, name: '实习中'},
+							{value: 200, name: '求职中'}
+						],
+						 itemStyle: {
+                			borderRadius: 10,
+                			borderColor: '#fff',
+                			borderWidth: 2
+            			},
+						emphasis: {
+							itemStyle: {
+								shadowBlur:10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						}
+					}]
+				}
+				var option2 = {
+					title: {
+						text: '不同专业实习人数比例',
+						left: 'center'
+					},
+					tooltip: {
+						trigger: 'item'
+					},
+					legend: {
+						orient: 'vertical',
+						left: 'left'
+					},
+					itemStyle: {
+						borderRadius: 10,
+						borderColor: '#fff',
+						borderWidth: 3
+					},
+					series: [{
+						name: '就业情况',
+						type: 'pie',
+						radius: ['30%', '60%'],
+						data: [
+							{value: 95, name: '计算机科学与技术'},
+							{value: 100, name: '软件工程'},
+							{value: 76, name: '计算机网络'}
+						],
+						emphasis: {
+							itemStyle: {
+								shadowBlur:10,
+								shadowOffsetX: 0,
+								shadowColor: 'rgba(0, 0, 0, 0.5)'
+							}
+						}
+					}]
+				}
+				option3 = {
+					title: {
+						text: '不同专业就业人数趋势'
+					},
+					tooltip: {
+						trigger: 'axis'
+					},
+					legend: {
+						data: ['计算机科学与技术', '软件工程', '计算机网络']
+					},
+					grid: {
+						left: '3%',
+						right: '4%',
+						bottom: '3%',
+						containLabel: true
+					},
+					xAxis: {
+						type: 'category',
+						boundaryGap: false,
+						data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月']
+					},
+					yAxis: {
+						type: 'value'
+					},
+					series: [
+						{
+							name: '计算机科学与技术',
+							type: 'line',
+							stack: '总量',
+							data: [5, 30, 45, 67, 75, 80, 96]
+						},
+						{
+							name: '软件工程',
+							type: 'line',
+							stack: '总量',
+							data: [13, 30, 36, 45, 58, 77, 88]
+						},
+						{
+							name: '计算机网络',
+							type: 'line',
+							stack: '总量',
+							data: [3, 8, 20, 23, 46, 67, 97]
+						}
+					]
+				};
+				pic1.setOption(option1);
+				pic2.setOption(option2);
+				pic3.setOption(option3);
+			</script>
+		</div>
+	</body>
+</html>

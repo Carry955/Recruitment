@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carry.recruitment.mapper.JobMapper">
+    <select id="selectAll" resultMap="JobMap">
+        select * from t_job limit 10;
+    </select>
+
+    <resultMap id="JobMap" type="Job">
+        <association property="company" column="company_id" javaType="Company" select="com.carry.recruitment.mapper.CompanyMapper.getCompany">
+        </association>
+        <collection property="desc" javaType="java.util.ArrayList" ofType="String" select="com.carry.recruitment.mapper.JobMapper.getDesc" column="job_id=id">
+        </collection>
+        <collection property="require" javaType="java.util.ArrayList" ofType="String" select="com.carry.recruitment.mapper.JobMapper.getReq" column="job_id=id">
+        </collection>
+    </resultMap>
+    <select id="getJobsByComId" resultType="Job">
+        select * from t_job where company_id = #{company_id};
+    </select>
+    <select id="getDesc" resultType="String">
+        select descp from t_jobdesc where job_id = #{job_id}
+    </select>
+    <select id="getReq" resultType="String">
+        select `require` from t_jobreq where job_id = #{job_id}
+    </select>
+
+    <select id="getJob" resultMap="JobMap">
+        select * from t_job where id = #{job_id}
+    </select>
+
+    <select id="searchJob" resultMap="JobMap">
+        select * from t_job where name like concat('%', #{keyword}, '%') and city like concat('%', #{city}, '%') and category = #{category}
+    </select>
+
+    <insert id="addJob" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.carry.recruitment.entity.Job">
+        insert into t_job(name, company_id, settime, salary, city, category, num, edu) values (
+            #{name}, #{company.id}, #{settime}, #{salary}, #{city}, #{category}, #{num}, #{edu}
+        )
+    </insert>
+    <insert id="addDesc">
+        insert into t_jobdesc(job_id, descp) values
+        <foreach collection="descs" item="desc" separator=",">
+            (#{job_id}, #{desc})
+        </foreach>
+    </insert>
+    <insert id="addReq">
+        insert into t_jobreq(job_id, `require`) values
+        <foreach collection="reqs" item="req" separator=",">
+            (#{job_id}, #{req})
+        </foreach>
+    </insert>
+    <delete id="delDesc">
+        delete from t_jobdesc where job_id = #{job_id};
+    </delete>
+    <delete id="delReq">
+        delete from t_jobreq where job_id = #{job_id};
+    </delete>
+    <delete id="delJob">
+        delete from t_job where id = #{job_id};
+    </delete>
+
+    <update id="updateJob">
+        update t_job
+            set name = #{name}, salary = #{salary}, city = #{city}, category = #{category}, num = #{num}, edu = #{edu}
+            where id = #{id};
+    </update>
+</mapper>

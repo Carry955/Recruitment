@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carry.recruitment.mapper.CompanyMapper">
+    <select id="getCompany" resultMap="CompanyMap">
+        select * from t_company where id = #{company_id};
+    </select>
+    <resultMap id="CompanyMap" type="Company">
+        <association property="credit" column="company_id=id" javaType="String" select="com.carry.recruitment.mapper.CompanyMapper.getCredit"></association>
+    </resultMap>
+    <update id="edit">
+        update t_company
+            set name = #{name}, info = #{info}, address = #{address}, descp = #{descp}
+            where id = #{id};
+    </update>
+    <select id="getCredit" resultType="String">
+        select state from t_authentication where company_id = #{company_id};
+    </select>
+    <update id="credit">
+        update t_authentication
+            set state = "申请中"
+            where company_id = #{company_id};
+    </update>
+</mapper>

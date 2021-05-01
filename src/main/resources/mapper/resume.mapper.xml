@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.carry.recruitment.mapper.ResumeMapper">
+
+<!--  插入数据  -->
+    <insert id="insert">
+        insert into t_resume(stu_id, cretime, avator, `name`, appraisal, birthday, gender, marry, political, province, city, tel, email, web, address) values (
+            #{stu_id}, #{cretime}, #{avator}, #{name}, #{appraisal}, #{birthday}, #{gender}, #{marry}, #{political}, #{province}, #{city}, #{tel}, #{email}, #{web}, #{address}
+        );
+        insert into t_edu(stu_id, university, `degree`, major, englevel, course, descp) values
+        <foreach collection="edus" item="edu" separator=",">
+            (#{stu_id}, #{university}, #{degree}, #{major}, #{englevel}, #{course}, #{descp})
+        </foreach>
+        ;
+        insert into t_work(stu_id, company, `position`, wcity, starttime, endtime, info) values
+        <foreach collection="works" item="work" separator=",">
+            (#{stu_id}, #{company}, #{position}, #{wcity}, #{startTime}, #{endTime}, #{info})
+        </foreach>
+        ;
+    </insert>
+    <update id="update">
+        update t_resume
+            set avator = #{avator}, `name` = #{name}, appraisal = #{appraisal}, birthday = #{birthday}, gender=#{gender}, marry = #{marry}, political = #{political}, province = #{province}, city = #{city}, tel = #{tel}, email = #{email}, web = #{web}, address = #{address}
+            where id = #{id};
+<!--        <foreach collection="edus" item="edu" separator=";">-->
+<!--            update t_edu-->
+<!--            set university = #{edu.university}, `degree` = #{edu.degree}, major = #{edu.major}, englevel = #{edu.englevel}, course = #{edu.course}, descp = #{edu.descp}-->
+<!--            where stu_id = #{edu.stu_id}-->
+<!--        </foreach>-->
+<!--            ;-->
+<!--        <foreach collection="works" item="work" separator=";">-->
+<!--            update t_work-->
+<!--            set company = #{work.company}, `position` = #{work.position}, wcity = #{work.wcity}, starttime = #{work.startTime}, endtime = #{work.endTime}, info = #{work.info}-->
+<!--            where stu_id = #{work.stu_id}-->
+<!--        </foreach>-->
+<!--            ;-->
+    </update>
+
+<!--  获取数据  -->
+    <select id="getResumes" resultMap="ResumeMap">
+        select * from t_resume where stu_id = #{stu_id};
+    </select>
+    <resultMap id="ResumeMap" type="Resume">
+        <collection property="edus" javaType="java.util.ArrayList" ofType="EduExp" select="com.carry.recruitment.mapper.ResumeMapper.getEdus" column="stu_id = stu_id">
+        </collection>
+        <collection property="works" javaType="java.util.ArrayList" ofType="WorkExp" select="com.carry.recruitment.mapper.ResumeMapper.getWorks" column="stu_id = stu_id">
+        </collection>
+        <collection property="skills" javaType="java.util.ArrayList" ofType="Skill" select="com.carry.recruitment.mapper.ResumeMapper.getSkills" column="stu_id = stu_id">
+        </collection>
+    </resultMap>
+    <select id="getEdus" resultType="EduExp">
+        select * from t_edu where stu_id = #{stu_id};
+    </select>
+    <select id="getWorks" resultType="WorkExp">
+        select * from t_work where stu_id = #{stu_id};
+    </select>
+    <select id="getSkills" resultType="Skill">
+        select * from t_skill where stu_id = #{stu_id};
+    </select>
+
+    <select id="getResume" resultType="Resume">
+        select * from t_resume where id = #{resume_id};
+    </select>
+
+</mapper>

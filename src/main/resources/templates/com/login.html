@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>企业登录</title>
+		<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+		<style type="text/css">
+			*{
+				text-decoration: none;
+				list-style: none;
+			}
+			html, body{
+				height: 100%;
+			}
+			a{
+				cursor: pointer;
+			}
+			#login-box .modal-dialog{
+				width: 360px;
+			}
+			.carousel-item img{
+				height: 400px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#login-btn').on('click',function(){
+					$('#register-btn').css("display", "flex");
+					$('#login-btn').css("display", "none")
+					$('#register-box').css("display", "none");
+					$('#login-box').css("display", "flex");
+				})
+				$('#register-btn').on('click', function(){
+					$('#login-btn').css("display", "flex");
+					$('#register-btn').css("display", "none");
+					$('#login-box').css("display", "none");
+					$('#register-box').css("display", "flex");
+				})
+			})
+		</script>
+	</head>
+	<body class="d-flex justify-content-center">
+		<!-- 页头 -->
+		<div class="container" id="page-header">
+			<nav class="mb-3 navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+				<a class="navbar-brand mr-auto" th:href="@{/}">大学生招聘就业网</a>
+				<div class="collapse navbar-collapse nav-item">
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">我是HR</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  <a class="dropdown-item" th:href="@{/}">我是学生</a>
+						  <a class="dropdown-item" th:href="@{/sch}">我是老师</a>
+						</div>
+					</div>
+				</div>
+				<button id="login-btn" class="nav-item btn btn-outline-primary" style="display: none;">登录</button>
+				<button id="register-btn" class="nav-item btn btn-outline-primary" style="display: block;">注册</button>
+			</nav>
+		</div>
+		<!-- 登录框 -->
+		<div class="container position-absolute d-flex justify-content-center align-items-center" id="page-body" style="top: 56px; bottom: 0px; ">
+			<div id="login-box" class="bg-light rounded shadow-lg flex-column align-items-center p-5" style="height: 400px; width: 340px; display: flex;">
+				<h3>登录</h3>
+				<form th:action="@{/com/login}" method="post">
+					<div class="form-group mt-3">
+						<label for="login-name">用户名</label>
+						<input type="text" class="form-control" name="username" id="login-name"/>
+					</div>
+					<div class="form-group mt-3">
+						<label for="login-password">密码</label>
+						<input type="password" class="form-control" name="password" id="login-password"/>
+					</div>
+					<input type="submit" class="btn btn-primary w-100 mt-3" value="登录" />
+				</form>
+			</div>
+			<div id="register-box" class="bg-light rounded shadow-lg flex-column align-items-center p-5" style="height: 450px; width: 340px; display: none;">
+				<h3>注册</h3>
+				<form th:action="@{/com/register}" method="post">
+					<div class="form-group mt-3">
+						<label for="register-name">用户名</label>
+						<input type="text" class="form-control" name="username" id="register-name"/>
+					</div>
+					<div class="form-group mt-3">
+						<label for="register-password">密码</label>
+						<input type="password" class="form-control" name="password" id="register-password"/>
+					</div>
+					<div class="form-group mt-3">
+						<label for="register-repassword">重复密码</label>
+						<input type="password" class="form-control" name="repassword" id="register-repassword"/>
+					</div>
+					<input type="submit" class="btn btn-primary w-100 mt-3" value="注册" />
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

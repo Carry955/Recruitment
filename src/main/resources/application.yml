@@ -1,0 +1,18 @@
+server:
+  port: 80
+spring:
+  datasource:
+    name: job
+    url: jdbc:mysql://81.68.190.70:3306/job
+    username: carry
+    password: 955955
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  web:
+    resources:
+      static-locations: classpath:/static/
+  thymeleaf:
+    cache: false
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.carry.recruitment.entity

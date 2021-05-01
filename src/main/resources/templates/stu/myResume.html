@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的简历</title>
+		<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+		<style type="text/css">
+			*{
+				text-decoration: none;
+				list-style: none;
+			}
+			a{
+				cursor: pointer;
+			}
+			.avatar{
+				height: 110px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 页头 -->
+		<div class="container" id="page-header">
+			<nav class="mb-3 navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+				<a class="navbar-brand mr-auto" th:href="@{/}">大学生招聘就业网</a>
+				<div class="collapse navbar-collapse nav-item">
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">我是学生</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  	<a class="dropdown-item" th:href="@{/sch}">我是教师</a>
+                    		<a class="dropdown-item" th:href="@{/com}">我是HR</a>
+						</div>
+					</div>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item active">
+							<a class="nav-link" th:href="@{#}">我的简历</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/applied}">我的投递</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/favorite}">我的收藏</a>
+						</li>
+					</ul>
+				</div>
+				<a th:href="@{/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<button th:unless="${checked}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
+			</nav>
+		</div>
+		<!-- 简历正文 -->
+		<div class="container my-5" th:object="${resume}">
+			<form th:action="@{/resume}" method="post">
+				<div class="row">
+					<div class="col-lg-12">
+						<h5 class="text-dark">个人信息 :</h5>
+						<input value="" style="display: none" name="id" th:value="*{id}">
+					</div>
+					<div class="col-12 mt-3">
+						<div class=" p-4 border rounded">
+							<a><img src="../img/avator.jpg" class="img-fluid avatar avatar-medium d-block mx-auto rounded-pill"></a>
+							<div class="row mt-4">
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">姓名<span class="text-danger">*</span> :</label>
+										<input id="name" type="text" name="name" th:value="*{name}" class="form-control" placeholder="请输入姓名">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">出生年月<span class="text-danger">*</span> :</label>
+										<input id="date-of-birth" type="text" name="birthday" th:value="*{birthday}" class="form-control">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">性别<span class="text-danger">*</span> :</label>
+										<input type="text"  class="form-control" name="gender" th:value="*{gender}">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">婚姻状况</label>
+										<input type="text" class="form-control" name="marry" th:value="*{marry}">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">政治身份</label>
+										<input type="text" class="form-control" name="political" th:value="*{political}">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-5">
+					<div class="col-12">
+						<h5 class="text-dark">联系信息 :</h5>
+					</div>
+
+					<div class="col-12 mt-3">
+						<div class=" p-4 border rounded">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">省份</label>
+										<input type="text" class="form-control" name="province" th:value="*{province}">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">城市</label>
+										<input type="text" class="form-control" name="city" th:value="*{city}">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">电话</label>
+										<input id="phone" type="text" name="tel" th:value="*{tel}" class="form-control resume" placeholder="请输入电话">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">电子邮件</label>
+										<input id="e-mail" type="email" name="email" th:value="*{email}" class="form-control resume" placeholder="username@example.com">
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="form-group app-label">
+										<label class="text-muted">个人网站</label>
+										<input id="website" type="url" name="web" th:value="*{web}" class="form-control resume" placeholder="www.example.com">
+									</div>
+								</div>
+
+								<div class="col-lg-12">
+									<div class="form-group app-label">
+										<label>详细住址</label>
+										<textarea id="address" rows="4" name="address" th:text="*{address}" class="form-control resume" placeholder=""></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" th:each="edu,stat : *{edus}" th:object="${edu}">
+					<div class="col-lg-12">
+						<h5 class="text-dark mt-5">教育经历 :</h5>
+					</div>
+
+					<div class="col-12 mt-3">
+						<div class=" p-4 border rounded">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group app-label">
+										<label class="text-muted">毕业院校</label>
+										<input id="graduation" type="text" name="edus.university" th:value="*{university}" class="form-control resume" placeholder="">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group app-label">
+										<label class="text-muted">所获学位</label>
+										<input id="university/college" type="text" name="degree" th:value="*{degree}" class="form-control resume" placeholder="">
+									</div>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="form-group app-label">
+										<label class="text-muted">所读专业</label>
+										<input id="degree/certification" type="text" name="major" th:value="*{major}" class="form-control resume" placeholder="">
+									</div>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group app-label">
+												<label class="text-muted">英语等级</label>
+												<input type="text" class="form-control" name="englevel" th:value="*{englevel}">
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group app-label">
+												<label class="text-muted">主修课程</label>
+												<input id="course-title" type="text" class="form-control resume" name="edu.course" th:value="*{course}">
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-12">
+									<div class="form-group app-label">
+										<label>经历描述 :</label>
+										<textarea id="addition-information" rows="4" class="form-control resume" name="edu.descp" th:text="*{descp}"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row" th:each="work : *{works}" th:object="${work}">
+					<div class="col-12 mt-5">
+						<h5 class="text-dark">工作经历 :</h5>
+					</div>
+					<div class="col-12 mt-3">
+						<div class=" p-4 border rounded">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group app-label">
+										<label class="text-muted">公司名称</label>
+										<input id="company-name" type="text" class="form-control resume" name="company" th:value="*{company}">
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<div class="form-group app-label">
+										<label class="text-muted">工作职位</label>
+										<input id="job-position" type="text" class="form-control resume" name="position" th:value="*{position}">
+									</div>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="form-group app-label">
+										<label class="text-muted">工作城市</label>
+										<input type="text" class="form-control" name="wcity" th:value="*{wcity}" >
+									</div>
+								</div>
+
+								<div class="col-lg-6">
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group app-label">
+												<label class="text-muted">入职日期</label>
+												<input id="date-from" type="text" class="form-control resume" name="startTime" th:value="*{startTime}" placeholder="01-Jan-2018">
+											</div>
+										</div>
+
+										<div class="col-md-6">
+											<div class="form-group app-label">
+												<label class="text-muted">离职日期</label>
+												<input id="date-to" type="text" class="form-control resume" name="endTime" th:value="*{endTime}" placeholder="31-March-2020">
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-lg-12">
+									<div class="form-group app-label">
+										<label>工作内容 :</label>
+										<textarea id="addition-information-1" rows="4" class="form-control resume" name="info" th:text="*{info}"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="row" th:each="skill: *{skills}" th:object="${skill}">
+					<div class="col-12 mt-5">
+						<h5 class="text-dark">技能 :</h5>
+					</div>
+
+					<div class="col-12 mt-3">
+						<div class=" p-4 border rounded">
+							<form>
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="form-group app-label">
+											<label class="text-muted">专业技能</label>
+											<input id="skills" type="text" class="form-control resume" name="skills.skill" th:value="*{skill}" placeholder="HTML, CSS, PHP, javascript, ...">
+										</div>
+									</div>
+
+									<div class="col-lg-12">
+										<div class="form-group app-label">
+											<label class="text-muted">掌握程度</label>
+											<input id="skill_proficiency" type="text" class="form-control resume" name="skills.level" th:value="*{level}" placeholder="75%">
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="col-12 mt-4">
+						<input type="submit" id="submit" class="submitBnt btn btn-primary" value="保存简历">
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

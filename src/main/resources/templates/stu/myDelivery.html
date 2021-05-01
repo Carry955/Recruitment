@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的投递</title>
+		<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+		<style type="text/css">
+			*{
+				text-decoration: none;
+				list-style: none;
+			}
+			a{
+				cursor: pointer;
+			}
+			.avatar{
+				height: 110px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 页头 -->
+		<div class="container" id="page-header">
+			<nav class="mb-3 navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+				<a class="navbar-brand mr-auto" th:href="@{/}">大学生招聘就业网</a>
+				<div class="collapse navbar-collapse nav-item">
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">我是学生</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  	<a class="dropdown-item" th:href="@{/sch}">我是教师</a>
+                    		<a class="dropdown-item" th:href="@{/com}">我是HR</a>
+						</div>
+					</div>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/resume}">我的简历</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" th:href="@{#}">我的投递</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/favorite}">我的收藏</a>
+						</li>
+					</ul>
+				</div>
+				<a th:href="@{/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<button th:unless="${checked}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
+			</nav>
+		</div>
+		<div class="container">
+			<nav class="mb-3">
+				<div class="nav nav-tabs" id="nav-tab" role="tablist">
+					<a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-all" role="tab"
+						aria-controls="nav-home" aria-selected="true">全部</a>
+					<a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-applied" role="tab"
+						aria-controls="nav-profile" aria-selected="false">可撤回</a>
+					<a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-readed" role="tab"
+						aria-controls="nav-contact" aria-selected="false">已阅读</a>
+					<a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-done" role="tab"
+						aria-controls="nav-contact" aria-selected="false">已处理</a>
+				</div>
+			</nav>
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane row-cols-1 fade show active" id="nav-all" role="tabpanel">
+					<div class="card col mb-4" th:each="apply: ${applys}" th:object="${apply}">
+						<div class="card-body">
+							<h6 class="card-title" th:text="*{job.name}"></h6>
+							<p class="card-text" th:text="*{posttime}"><small></small></p>
+							<div class="float-right">
+								<a class="btn btn-primary" th:href="@{'/detail/'+*{job.id}}">职位详情</a>
+								<a class="btn btn-secondary" th:href="@{'/resume'}">简历详情</a>
+								<a class="btn btn-danger" th:href="@{'/revoke/'+*{id}}">撤回</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="nav-applied" role="tabpanel">
+					<div class="card col mb-4">
+						<div class="card-body">
+							<h6 class="card-title">工作</h6>
+							<p class="card-text"><small>描述</small></p>
+							<a style="float: right;" class="btn btn-primary stretched-link" href="">详情</a>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="nav-readed" role="tabpanel">
+					<div class="card col mb-4">
+						<div class="card-body">
+							<h6 class="card-title">工作</h6>
+							<p class="card-text"><small>描述</small></p>
+							<a style="float: right;" class="btn btn-primary stretched-link" href="">详情</a>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="nav-done" role="tabpanel">
+					<div class="card col mb-4">
+						<div class="card-body">
+							<h6 class="card-title">工作</h6>
+							<p class="card-text"><small>描述</small></p>
+							<a style="float: right;" class="btn btn-primary stretched-link" href="">详情</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

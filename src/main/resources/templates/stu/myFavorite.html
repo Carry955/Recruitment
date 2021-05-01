@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>我的收藏</title>
+		<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.css" rel="stylesheet">
+		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" rel="stylesheet">
+		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+		<style type="text/css">
+			*{
+				text-decoration: none;
+				list-style: none;
+			}
+			a{
+				cursor: pointer;
+			}
+			.avatar{
+				height: 110px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 页头 -->
+		<div class="container" id="page-header">
+			<nav class="mb-3 navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+				<a class="navbar-brand mr-auto" th:href="@{/}">大学生招聘就业网</a>
+				<div class="collapse navbar-collapse nav-item">
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle text-dark" data-toggle="dropdown">我是学生</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						  	<a class="dropdown-item" th:href="@{/sch}">我是教师</a>
+                    		<a class="dropdown-item" th:href="@{/com}">我是HR</a>
+						</div>
+					</div>
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/resume}">我的简历</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" th:href="@{/applied}">我的投递</a>
+						</li>
+						<li class="nav-item active">
+							<a class="nav-link" th:href="@{#}">我的收藏</a>
+						</li>
+					</ul>
+				</div>
+				<a th:href="@{/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<button th:unless="${checked}" class="nav-item btn btn-outline-primary" data-toggle="modal" data-target="#login-box">登录</button>
+			</nav>
+		</div>
+		<div class="container">
+			<div class="row-cols-1">
+				<div class="card col mb-4"  th:each="favorite: ${favorites}" th:object="${favorite}">
+					<div class="card-body">
+						<h6 class="card-title" th:text="*{job.name}"></h6>
+						<p class="card-text" th:text="*{settime}"><small></small></p>
+						<div class="float-right">
+							<a class="btn btn-primary" th:href="@{'/detail/'+*{job.id}}">职位详情</a>
+							<a class="btn btn-danger" th:href="@{'/delfavorite/'+*{id}}">删除收藏</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</body>
+</html>
