@@ -11,6 +11,7 @@ import com.carry.recruitment.service.SchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Service("schService")
@@ -23,9 +24,10 @@ public class SchServiceImpl implements SchService {
     private StuMapper stuMapper;
 
     @Override
-    public boolean login(Teacher teacher) {
-        Teacher mTeacher = teacherMapper.login(teacher.getUsername());
-        if(mTeacher.getPassword().equals(teacher.getPassword())){
+    public boolean login(Teacher teacher, HttpServletRequest request) {
+        Teacher mTeacher = teacherMapper.getOne(teacher.getUsername());
+        if(teacher.getPassword().equals(mTeacher.getPassword())){
+            request.getSession().setAttribute("teacher", mTeacher);
             return true;
         }else{
             return false;
@@ -33,13 +35,19 @@ public class SchServiceImpl implements SchService {
     }
 
     @Override
+    public void logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("teacher");
+    }
+
+    @Override
     public int register(Teacher teacher) {
+        teacher.setImg("/img/teacher");
         return teacherMapper.register(teacher);
     }
 
     @Override
-    public ArrayList<Credit> getCredits(String state) {
-        return teacherMapper.getCredits(state);
+    public ArrayList<Credit> getCredits(String status) {
+        return teacherMapper.getCredits(status);
     }
 
     @Override

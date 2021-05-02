@@ -15,11 +15,11 @@
             where id = #{id};
     </update>
     <select id="getCredit" resultType="String">
-        select state from t_authentication where company_id = #{company_id};
+        select status from t_authentication where company_id = #{company_id};
     </select>
     <update id="credit">
         update t_authentication
-            set state = "申请中"
+            set status = "申请中"
             where company_id = #{company_id};
     </update>
 </mapper>

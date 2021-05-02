@@ -73,13 +73,18 @@ public class StuController {
         stuService.updateResume(resume);
         return "redirect:/resume";
     }
-
-    @RequestMapping(value="/applied", method = RequestMethod.GET)
-    public String applied(Model model, HttpServletRequest request){
-        Stu stu = (Stu)request.getSession().getAttribute("stu");
-        ArrayList<Apply> applys = stuService.getapplys(stu.getId());
-        model.addAttribute("applys", applys);
+    @RequestMapping(value = "/applied", method = RequestMethod.GET)
+    public String applied_get(Model model, HttpServletRequest request){
         return "stu/myDelivery";
+    }
+
+    @RequestMapping(value="/applied", method = RequestMethod.POST)
+    @ResponseBody
+    public ArrayList<Apply> applied(Model model, HttpServletRequest request){
+        String status = request.getParameter("status");
+        Stu stu = (Stu)request.getSession().getAttribute("stu");
+        ArrayList<Apply> applys = stuService.getapplys(stu.getId(), status);
+        return applys;
     }
     @RequestMapping(value = "/apply/{job_id}", method = RequestMethod.GET)
     public String apply(Model model, HttpServletRequest request, @PathVariable int job_id){
@@ -94,7 +99,7 @@ public class StuController {
     @RequestMapping(value = "/revoke/{apply_id}", method = RequestMethod.GET)
     public String revoke(Model model, HttpServletRequest request, @PathVariable int apply_id){
         stuService.revoke(new Apply(apply_id));
-        return applied(model, request);
+        return "redirect:/applied/";
     }
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)
@@ -104,7 +109,7 @@ public class StuController {
         model.addAttribute("favorites", favorites);
         return "stu/myFavorite";
     }
-    @RequestMapping(value = "addfavorite/{job_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/addfavorite/{job_id}", method = RequestMethod.GET)
     public String addFavorite(Model model, HttpServletRequest request,@PathVariable int job_id){
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Stu stu = (Stu)request.getSession().getAttribute("stu");

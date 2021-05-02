@@ -4,6 +4,11 @@ public class Teacher {
     private int id;
     private String username;
     private String password;
+    private String img;
+
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public Teacher() {
     }
@@ -35,5 +40,8 @@ public class Teacher {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    public String getImg() {
+        return img;
     }
 }

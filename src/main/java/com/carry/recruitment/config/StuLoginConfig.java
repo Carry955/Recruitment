@@ -6,6 +6,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.nio.file.PathMatcher;
+
 @Configuration
 public class StuLoginConfig implements WebMvcConfigurer {
     @Override

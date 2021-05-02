@@ -5,6 +5,7 @@ public class Hr {
     private String username;
     private String password;
     private Company company;
+    private String img;
 
     public Hr(String username, String password) {
         this.username = username;
@@ -41,5 +42,13 @@ public class Hr {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

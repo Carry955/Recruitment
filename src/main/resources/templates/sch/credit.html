@@ -56,44 +56,64 @@
 						</li>
 					</ul>
 				</div>
-				<a th:href="@{/sch/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<a th:href="@{/sch/logout}"><img th:if="${teacher}" class="rounded-circle" th:src="@{''+${teacher.img}}" style="width:30px; height: 30px;"></a>
 			</nav>
 		</div>
 		<!-- 页身 -->
 		<div class="container">
 			<nav class="mb-3">
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-applying"
-						role="tab">申请中</a>
-					<a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-checked" role="tab">已授权</a>
+					<a class="nav-link active" id="nav-applying-tab" name="申请中" data-toggle="tab" href="#nav-applying" role="tab">申请中</a>
+					<a class="nav-link" id="nav-granted-tab" name="已授权" data-toggle="tab" href="#nav-granted" role="tab">已授权</a>
 				</div>
 			</nav>
 			<div class="tab-content">
 				<div class="tab-pane fade show active row-cols-1" id="nav-applying" role="tabpanel">
-					<div class="col mb-4 card" th:each="credit: ${credits_applying}", th:object="${credit}">
-						<div class="card-body">
-							<h5 class="card-title" th:text="*{company.name}"></h5>
-							<p><small class="text-muted" th:text="*{settime}"></small></p>
-							<p  th:text="*{state}"></p>
-							<div class="float-right">
-								<a class="btn btn-primary" th:href="@{'/sch/credit/'+*{id}}">授权</a>
-							</div>
-						</div>
-					</div>
+
 				</div>
-				<div class="tab-pane fade row-cols-1" id="nav-checked" role="tabpanel">
-					<div class="col mb-4 card" th:each="credit: ${credits_passed}", th:object="${credit}">
-						<div class="card-body">
-							<h5 class="card-title" th:text="*{company.name}"></h5>
-							<p><small class="text-muted" th:text="*{settime}"></small></p>
-							<p  th:text="*{state}"></p>
-							<div class="float-right">
-								<a class="btn btn-primary" th:href="@{'/sch/revoke/'+*{id}}">撤销</a>
-							</div>
-						</div>
-					</div>
+				<div class="tab-pane fade row-cols-1" id="nav-granted" role="tabpanel">
+
 				</div>
 			</div>
 		</div>
+		<script>
+			getCredits("nav-applying", "申请中");
+			$('#nav-tab>a').on("click", function(){
+				getCredits($(this).attr('id').replace("-tab", ""), $(this).attr('name'));
+			});
+			function getCredits(viewId, status){
+				$.ajax({
+					type: "POST",
+					url: "/sch/credit",
+					data: {
+						"status":status
+					},
+					dataType: "json",
+					success: function(credits){
+						$('#'+viewId).empty();
+						for(var i=0; i<credits.length; i++){
+							var credit = credits[i];
+							var card = '<div class="col mb-4 card">'+
+											'<div class="card-body">'+
+												'<h5 class="card-title">'+credit.company.name+'</h5>'+
+												'<p><small class="text-muted">'+credit.settime+'</small></p>'+
+												'<p>'+credit.status+'</p>'+
+												'<div class="float-right">';
+							if(credit.status == "申请中"){
+								card += '<a class="btn btn-primary" href="/sch/credit/'+credit.id+'">授权</a>';
+							}else if(credit.status == "已授权"){
+								card += '<a class="btn btn-primary" href="/sch/revoke/'+credit.id+'">撤销</a>';
+							}
+							card += '</div>'+
+											'</div>'+
+										'</div>';
+							$('#'+viewId).append(
+								card
+							);
+						}
+					}
+				});
+			}
+		</script>
 	</body>
 </html>

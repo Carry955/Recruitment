@@ -44,7 +44,7 @@
 					</div>
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" th:href="@{/com/index}">公司信息</a>
+							<a class="nav-link" th:href="@{/com/cominfo}">公司信息</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" th:href="@{/com/mng}">职位管理</a>
@@ -54,7 +54,7 @@
 						</li>
 					</ul>
 				</div>
-				<a th:href="@{/com/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<a th:href="@{/com/logout}"><img th:if="${company}" class="rounded-circle" th:src="@{''+${company.logo}}" style="width:30px; height: 30px;"></a>
 			</nav>
 		</div>
 

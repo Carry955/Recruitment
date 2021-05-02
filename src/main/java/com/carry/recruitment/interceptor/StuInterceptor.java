@@ -1,6 +1,7 @@
 package com.carry.recruitment.interceptor;
 
 import com.carry.recruitment.entity.Stu;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,6 +25,9 @@ public class StuInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (request.getMethod().equals("POST")){
+            return;
+        }
         Stu stu = (Stu)request.getSession().getAttribute("stu");
         modelAndView.getModelMap().addAttribute("stu", stu);
     }

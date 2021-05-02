@@ -68,8 +68,8 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public ArrayList<Apply> getapplys(String stu_id) {
-        return applyMapper.getApplys(stu_id);
+    public ArrayList<Apply> getapplys(String stu_id, String status) {
+        return applyMapper.getApplys(stu_id, status);
     }
 
     @Override

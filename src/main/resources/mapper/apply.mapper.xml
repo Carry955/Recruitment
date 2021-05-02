@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.carry.recruitment.mapper.ApplyMapper">
     <select id="getApplys" resultMap="ApplyMap">
-        select * from t_applied where stu_id=#{stu_id};
+        select * from t_applied where stu_id=#{stu_id} and status like concat('%', #{status}, '%');
     </select>
     <resultMap id="ApplyMap" type="Apply">
         <association property="job" column="job_id" javaType="Job" select="com.carry.recruitment.mapper.JobMapper.getJob">
@@ -13,11 +13,11 @@
         </association>
     </resultMap>
     <select id="getAppliesByComId" resultMap="ApplyMap">
-        select * from t_applied where company_id = #{company_id};
+        select * from t_applied where company_id = #{company_id} and status like concat('%', #{status}, '%');
     </select>
     <insert id="apply">
-        insert into t_applied(stu_id, posttime, state, job_id, resume_id, company_id) values(
-            #{stu_id}, #{posttime}, #{state}, #{job.id}, #{resume.id}, (select company_id from t_job where id = #{job.id})
+        insert into t_applied(stu_id, posttime, status, job_id, resume_id, company_id) values(
+            #{stu_id}, #{posttime}, #{status}, #{job.id}, #{resume.id}, (select company_id from t_job where id = #{job.id})
         );
     </insert>
     <delete id="revoke">

@@ -54,7 +54,7 @@
 						</li>
 					</ul>
 				</div>
-				<a th:href="@{/com/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<a th:href="@{/com/logout}"><img th:if="${company}" class="rounded-circle" th:src="@{''+${company.logo}}" style="width:30px; height: 30px;"></a>
 			</nav>
 		</div>
 		<!-- 页身 -->
@@ -66,7 +66,7 @@
 						<div class="mb-3 mr-3 float-right">
 							<input class="btn btn-primary" type="submit" value="提交修改"/>
 							<a class="btn btn-primary" th:href="@{'/com/credit/'+*{id}}" th:if="*{credit == ''}" type="button">授权申请</a>
-							<button class="btn btn-primary" th:if="*{credit == '已通过'}"  disabled type="button">已通过</button>
+							<button class="btn btn-primary" th:if="*{credit == '已授权'}"  disabled type="button">已授权</button>
 							<button class="btn btn-primary" th:if="*{credit == '申请中'}" disabled type="button">申请中</button>
 						</div>
 					</div>

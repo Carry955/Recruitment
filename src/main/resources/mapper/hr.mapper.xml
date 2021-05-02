@@ -3,7 +3,7 @@
                 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.carry.recruitment.mapper.HrMapper">
-    <select id="login" resultMap="HrMap">
+    <select id="getOne" resultMap="HrMap">
         select * from t_hr where username = #{username};
     </select>
     <resultMap id="HrMap" type="Hr">

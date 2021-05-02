@@ -6,7 +6,7 @@ public class Apply {
     private int id;
     private String stu_id;
     private String posttime;
-    private String state;
+    private String status;
     private Job job;
     private Resume resume;
 
@@ -17,10 +17,10 @@ public class Apply {
         this.id = id;
     }
 
-    public Apply(String stu_id, String posttime, String state, Job job, Resume resume) {
+    public Apply(String stu_id, String posttime, String status, Job job, Resume resume) {
         this.stu_id = stu_id;
         this.posttime = posttime;
-        this.state = state;
+        this.status = status;
         this.job = job;
         this.resume = resume;
     }
@@ -49,12 +49,12 @@ public class Apply {
         this.posttime = posttime;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Job getJob() {

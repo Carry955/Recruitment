@@ -54,7 +54,7 @@
 						</li>
 					</ul>
 				</div>
-				<a th:href="@{/sch/logout}"><img th:if="${checked}" class="rounded-circle" src="/img/avator.jpg" style="width:30px; height: 30px;"></a>
+				<a th:href="@{/sch/logout}"><img th:if="${teacher}" class="rounded-circle" th:src="@{''+${teacher.img}}" style="width:30px; height: 30px;"></a>
 			</nav>
 		</div>
 		<!-- 正文 -->

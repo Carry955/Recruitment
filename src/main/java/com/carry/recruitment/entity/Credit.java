@@ -3,7 +3,7 @@ package com.carry.recruitment.entity;
 public class Credit {
     private int id;
     private Company company;
-    private String state;
+    private String status;
     private String settime;
 
     public int getId() {
@@ -22,12 +22,12 @@ public class Credit {
         this.company = company;
     }
 
-    public String getState() {
-        return state;
+    public String getStatus() {
+        return status;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getSettime() {

@@ -52,58 +52,67 @@
 		<div class="container">
 			<nav class="mb-3">
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<a class="nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-all" role="tab"
-						aria-controls="nav-home" aria-selected="true">全部</a>
-					<a class="nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-applied" role="tab"
-						aria-controls="nav-profile" aria-selected="false">可撤回</a>
-					<a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-readed" role="tab"
-						aria-controls="nav-contact" aria-selected="false">已阅读</a>
-					<a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-done" role="tab"
-						aria-controls="nav-contact" aria-selected="false">已处理</a>
+					<a class="nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" name="" role="tab">全部</a>
+					<a class="nav-link" id="nav-applied-tab" data-toggle="tab" href="#nav-applied" name="已投递" role="tab">可撤回</a>
+					<a class="nav-link" id="nav-readed-tab" data-toggle="tab" href="#nav-readed" name="已阅读" role="tab">已阅读</a>
+					<a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-done" name="已处理" role="tab">已处理</a>
 				</div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane row-cols-1 fade show active" id="nav-all" role="tabpanel">
-					<div class="card col mb-4" th:each="apply: ${applys}" th:object="${apply}">
-						<div class="card-body">
-							<h6 class="card-title" th:text="*{job.name}"></h6>
-							<p class="card-text" th:text="*{posttime}"><small></small></p>
-							<div class="float-right">
-								<a class="btn btn-primary" th:href="@{'/detail/'+*{job.id}}">职位详情</a>
-								<a class="btn btn-secondary" th:href="@{'/resume'}">简历详情</a>
-								<a class="btn btn-danger" th:href="@{'/revoke/'+*{id}}">撤回</a>
-							</div>
-						</div>
-					</div>
+
 				</div>
 				<div class="tab-pane fade" id="nav-applied" role="tabpanel">
-					<div class="card col mb-4">
-						<div class="card-body">
-							<h6 class="card-title">工作</h6>
-							<p class="card-text"><small>描述</small></p>
-							<a style="float: right;" class="btn btn-primary stretched-link" href="">详情</a>
-						</div>
-					</div>
+
 				</div>
 				<div class="tab-pane fade" id="nav-readed" role="tabpanel">
-					<div class="card col mb-4">
-						<div class="card-body">
-							<h6 class="card-title">工作</h6>
-							<p class="card-text"><small>描述</small></p>
-							<a style="float: right;" class="btn btn-primary stretched-link" href="">详情</a>
-						</div>
-					</div>
+
 				</div>
 				<div class="tab-pane fade" id="nav-done" role="tabpanel">
-					<div class="card col mb-4">
-						<div class="card-body">
-							<h6 class="card-title">工作</h6>
-							<p class="card-text"><small>描述</small></p>
-							<a style="float: right;" class="btn btn-primary stretched-link" href="">详情</a>
-						</div>
-					</div>
+
 				</div>
 			</div>
 		</div>
+		<script>
+			getApplys("nav-all", "");
+			$('#nav-tab>a').on("click", function(){
+				getApplys($(this).attr('id').replace("-tab", ""), $(this).attr('name'));
+			});
+			function getApplys(viewId, status = ''){
+				$.ajax({
+					type: "POST",
+					url: "/applied",
+					data: {
+						"status":status
+					},
+					dataType: "json",
+					success: function(applys){
+						$('#'+viewId).empty();
+						for(var i=0; i<applys.length; i++){
+							var apply = applys[i];
+							var card = '<div class="card col mb-4">'+
+									'<div class="card-body">'+
+										'<h6 class="card-title">'+apply.job.name+'</h6>'+
+										'<p class="card-text"><small>'+apply.posttime+'</small></p>'+
+										'<div class="float-right">'+
+											'<a class="btn btn-primary" href="/detail/'+apply.job.id+'">职位详情</a> '+
+											'<a class="btn btn-secondary" href="/resume">简历详情</a> ';
+
+							if(apply.status == "已投递"){
+								card += '<a class="btn btn-danger" href="/revoke/'+apply.id+'">撤回</a>';
+							}else{
+								card += '<a class="btn btn-danger disabled" href="/revoke/'+apply.id+'">撤回</a>';
+							}
+							card += '</div>'+
+									'</div>'+
+								'</div>';
+							$('#'+viewId).append(
+								card
+							);
+						}
+					}
+				})
+			}
+		</script>
 	</body>
 </html>

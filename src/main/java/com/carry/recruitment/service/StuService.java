@@ -14,7 +14,7 @@ public interface StuService {
     public int updateResume(Resume resume);
     public int apply(Apply apply);
     public int revoke(Apply apply);
-    public ArrayList<Apply> getapplys(String stu_id);
+    public ArrayList<Apply> getapplys(String stu_id, String status);
     public ArrayList<Favorite> getFavorites(String stu_id);
     public int addFavorite(Favorite favorite);
     public int delFavorite(Favorite favorite);

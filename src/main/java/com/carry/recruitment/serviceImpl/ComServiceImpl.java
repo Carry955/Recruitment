@@ -12,6 +12,7 @@ import com.carry.recruitment.service.ComService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 
 @Service("comService")
@@ -30,12 +31,13 @@ public class ComServiceImpl implements ComService {
     private ApplyMapper applyMapper;
 
     @Override
-    public int login(Hr hr) {
-        Hr mHr = hrMapper.login(hr.getUsername());
-        if (mHr.getPassword().equals(hr.getPassword())){
-            return mHr.getCompany().getId();
+    public boolean login(Hr hr, HttpServletRequest request) {
+        Hr mHr = hrMapper.getOne(hr.getUsername());
+        if (hr.getPassword().equals(mHr.getPassword())){
+            request.getSession().setAttribute("hr", mHr);
+            return true;
         }else{
-            return 0;
+            return false;
         }
     }
 
@@ -50,8 +52,8 @@ public class ComServiceImpl implements ComService {
     }
 
     @Override
-    public ArrayList<Apply> getAppies(int company_id) {
-        return applyMapper.getAppliesByComId(company_id);
+    public ArrayList<Apply> getAppies(int company_id, String status) {
+        return applyMapper.getAppliesByComId(company_id, status);
     }
 
     @Override
