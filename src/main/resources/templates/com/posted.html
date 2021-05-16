@@ -71,6 +71,262 @@
 
 				</div>
 			</div>
+			<div class="modal hide" id="resume-detail">
+				<div class="modal-dialog modal-xl modal-dialog-scrollable">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">简历</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<h5 class="text-dark">个人信息 :</h5>
+								</div>
+								<div class="col-12 mt-3">
+									<div class=" p-4 border rounded">
+										<a><img id="avator" class="img-fluid avatar avatar-medium d-block mx-auto rounded-pill"></a>
+										<div class="row mt-4">
+											<div class="col-md-4">
+												<div id="name" class="form-group app-label">
+													<label class="text-muted">姓名<span class="text-danger">*</span> :</label>
+													<span type="text" class="form-control"></span>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div id="birthday" class="form-group app-label">
+													<label class="text-muted">出生年月<span class="text-danger">*</span> :</label>
+													<span type="text" name="birthday" class="form-control"></span>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div id="gender" class="form-group app-label">
+													<label class="text-muted">性别<span class="text-danger">*</span> :</label>
+													<span type="text"  class="form-control" name="gender"></span>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div id="marry" class="form-group app-label">
+													<label class="text-muted">婚姻状况</label>
+													<span type="text" class="form-control" name="marry"></span>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div id="political" class="form-group app-label">
+													<label class="text-muted">政治身份</label>
+													<span type="text" class="form-control" name="political"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row mt-5">
+								<div class="col-12">
+									<h5 class="text-dark">联系信息 :</h5>
+								</div>
+
+								<div class="col-12 mt-3">
+									<div class=" p-4 border rounded">
+										<div class="row">
+											<div class="col-md-4">
+												<div id="province" class="form-group app-label">
+													<label class="text-muted">省份</label>
+													<span type="text" class="form-control" name="province"></span>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div id="city" class="form-group app-label">
+													<label class="text-muted">城市</label>
+													<span type="text" class="form-control" name="city"></span>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div id="tel" class="form-group app-label">
+													<label class="text-muted">电话</label>
+													<span type="text" name="tel" class="form-control resume"></span>
+												</div>
+											</div>
+
+											<div class="col-md-4">
+												<div id="email" class="form-group app-label">
+													<label class="text-muted">电子邮件</label>
+													<span type="email" name="email" class="form-control resume"></span>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div id="website" class="form-group app-label">
+													<label class="text-muted">个人网站</label>
+													<span type="url" name="web" class="form-control resume"></span>
+												</div>
+											</div>
+
+											<div class="col-lg-12">
+												<div id="address" class="form-group app-label">
+													<label>详细住址</label>
+													<span name="address" class="form-control resume"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-12">
+									<h5 class="text-dark mt-5">教育经历 :</h5>
+								</div>
+
+								<div class="col-12 mt-3">
+									<div class=" p-4 border rounded">
+										<div class="row">
+											<div class="col-md-6">
+												<div id="graduation" class="form-group app-label">
+													<label class="text-muted">毕业院校</label>
+													<span type="text" name="edus.university" class="form-control resume"></span>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div id="degree"  class="form-group app-label">
+													<label class="text-muted">所获学位</label>
+													<span type="text" name="degree" class="form-control resume"></span>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div id="major" class="form-group app-label">
+													<label class="text-muted">所读专业</label>
+													<span id="degree/certification" type="text" name="major" class="form-control resume"></span>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div class="row">
+													<div class="col-md-6">
+														<div id="eng_level" class="form-group app-label">
+															<label class="text-muted">英语等级</label>
+															<span type="text" class="form-control" name="englevel"></span>
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div id="course" class="form-group app-label">
+															<label class="text-muted">主修课程</label>
+															<span type="text" class="form-control resume" name="edu.course" ></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-12">
+												<div id="edu-descp" class="form-group app-label">
+													<label>经历描述 :</label>
+													<span class="form-control resume" name="edu.descp"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-12 mt-5">
+									<h5 class="text-dark">工作经历 :</h5>
+								</div>
+								<div class="col-12 mt-3">
+									<div class=" p-4 border rounded">
+										<div class="row">
+											<div class="col-md-6">
+												<div id="company-name" class="form-group app-label">
+													<label class="text-muted">公司名称</label>
+													<span type="text" class="form-control resume" name="company"></span>
+												</div>
+											</div>
+
+											<div class="col-md-6">
+												<div id="job-position" class="form-group app-label">
+													<label class="text-muted">工作职位</label>
+													<span type="text" class="form-control resume" name="position"></span>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div id="work-city" class="form-group app-label">
+													<label class="text-muted">工作城市</label>
+													<span type="text" class="form-control" name="wcity" ></span>
+												</div>
+											</div>
+
+											<div class="col-lg-6">
+												<div class="row">
+													<div class="col-md-6">
+														<div id="work-start" class="form-group app-label">
+															<label class="text-muted">入职日期</label>
+															<span type="text" class="form-control resume" name="startTime"></span>
+														</div>
+													</div>
+
+													<div class="col-md-6">
+														<div id="work-end" class="form-group app-label">
+															<label class="text-muted">离职日期</label>
+															<span type="text" class="form-control resume" name="endTime"></span>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="col-lg-12">
+												<div id="work-info" class="form-group app-label">
+													<label>工作内容 :</label>
+													<span class="form-control resume" name="info"></span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="row">
+								<div class="col-12 mt-5">
+									<h5 class="text-dark">技能 :</h5>
+								</div>
+
+								<div class="col-12 mt-3">
+									<div class=" p-4 border rounded">
+										<form>
+											<div class="row">
+												<div class="col-lg-12">
+													<div id="skill-name" class="form-group app-label">
+														<label class="text-muted">专业技能</label>
+														<span type="text" class="form-control resume" name="skills.skill"></span>
+													</div>
+												</div>
+
+												<div class="col-lg-12">
+													<div id="skill-level" class="form-group app-label">
+														<label class="text-muted">掌握程度</label>
+														<span id="skill_proficiency" type="text" class="form-control resume" name="skills.level"></span>
+													</div>
+												</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<script>
 			getApplys("nav-all");
@@ -85,25 +341,75 @@
 						"status":status
 					},
 					dataType: "json",
-					success: function(applys){
+					success: function(data){
+						var applys = data.applys;
+						var words = data.words;
 						$('#'+viewId).empty();
 						for(var i=0; i<applys.length; i++) {
+							var word = words[i];
 							var apply = applys[i];
 							var card = 	'<div class="card mb-3">'+
 											'<div class="card-body">'+
 												'<h6 class="card-title">'+apply.job.name+'</h6>'+
 												'<p class="card-text">'+apply.resume.name+'</p>'+
-												'<p class="card-text"><small>'+apply.posttime+'</small></p>'+
-												'<div style="display: flex; justify-content: space-between;">'+
-													'<a class="btn btn-primary" href="/com/jobinfo/'+apply.job.id+'">职位详情</a>'+
-													'<a class="btn btn-secondary disabled" href="/com/resume/'+apply.resume.id+'">简历详情</a>'+
-												'</div>'+
-											'</div>'+
-										'</div>';
+												'<p class="card-text"><small>'+apply.posttime+'</small></p><div>'
+
+							for(var j=0; j<word.length; j++){
+								card += '<span class="badge badge-pill badge-info mx-1" style="font-size: 15px">'+words[i][j]+'</span>';
+							}
+							card += '</div><div class="float-right">'+
+									'<a class="btn btn-primary" href="/com/jobinfo/'+apply.job.id+'">职位详情</a> '+
+									'<a class="btn btn-secondary resume" href="javascript:void(0);"  onclick="resumeDetail('+apply.resume.id+')">简历详情</a>'+
+									'</div>'+
+									'</div>'+
+									'</div>';
 							$('#'+viewId).append(
 								card
 							);
 						}
+					}
+				});
+			}
+
+			function resumeDetail(id){
+				$.ajax({
+					type: "POST",
+					url: "/com/resume",
+					data: {
+						"id":id
+					},
+					dataType: "json",
+					success: function(resume){
+						var edu = resume.edus[0];
+						var work = resume.works[0];
+						var skill = resume.skills[0];
+						$("#avator").prop("src", resume.avator);
+						$("#name>span").text(resume.name);
+						$("#birthday>span").text(resume.birthday);
+						$("#gender>span").text(resume.gender);
+						$("#marry>span").text(resume.marry);
+						$("#political>span").text(resume.political);
+						$("#province>span").text(resume.province);
+						$("#city>span").text(resume.city);
+						$("#tel>span").text(resume.tel);
+						$("#email>span").text(resume.email);
+						$("#website>span").text(resume.web);
+						$("#address>span").text(resume.address);
+						$("#graduation>span").text(edu.university);
+						$("#degree>span").text(edu.degree);
+						$("#major>span").text(edu.major);
+						$("#eng_level>span").text(edu.englevel);
+						$("#course>span").text(edu.course);
+						$("#edu-descp>span").text(edu.descp);
+						$("#company-name>span").text(work.company);
+						$("#job-position>span").text(work.position);
+						$("#work-city>span").text(work.wcity);
+						$("#work-start>span").text(work.startTime);
+						$("#work-end>span").text(work.endTime);
+						$("#work-info>span").text(work.info);
+						$("#skill-name>span").text(skill.skill);
+						$("#skill-level>span").text(skill.level);
+						$("#resume-detail").modal('show');
 					}
 				});
 			}

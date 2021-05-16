@@ -34,8 +34,9 @@ public class StuController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, Stu stu){
+        String referPath = request.getHeader("referer").replace("http://localhost", "");
         stuService.login(stu, request);
-        return "redirect:/";
+        return "redirect:"+referPath;
     }
 
     @RequestMapping(value = "/logout", method=RequestMethod.GET)
@@ -50,7 +51,7 @@ public class StuController {
         String keyword = request.getParameter("keyword");
         String city = request.getParameter("city");
         String category = request.getParameter("category");
-        Map<String, Object> map = jobService.search(keyword, city, category, page, 5);
+        Map<String, Object> map = jobService.search(keyword, city, category, page, 10);
         return map;
     }
 
@@ -58,6 +59,14 @@ public class StuController {
     public String detail(Model model, @PathVariable int job_id, HttpServletRequest request){
         Job mJob = jobService.getJob(job_id);
         model.addAttribute("job", mJob);
+        try{
+            Stu stu = (Stu)request.getSession().getAttribute("stu");
+            if(stu != null){
+                model.addAttribute("stu", stu);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "stu/jobDetail";
     }
 
@@ -94,12 +103,14 @@ public class StuController {
         Resume resume = stuService.getResume(stu.getId()).get(0);
         Apply apply = new Apply(stu.getId(), posttime, "已投递", new Job(job_id), resume);
         stuService.apply(apply);
-        return index(model, request);
+        String referPath = request.getHeader("referer").replace("http://localhost", "");
+//        return index(model, request);
+        return "redirect:"+referPath;
     }
     @RequestMapping(value = "/revoke/{apply_id}", method = RequestMethod.GET)
     public String revoke(Model model, HttpServletRequest request, @PathVariable int apply_id){
         stuService.revoke(new Apply(apply_id));
-        return "redirect:/applied/";
+        return "redirect:/applied";
     }
 
     @RequestMapping(value = "/favorite", method = RequestMethod.GET)

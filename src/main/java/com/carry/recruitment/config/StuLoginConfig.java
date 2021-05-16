@@ -16,8 +16,9 @@ public class StuLoginConfig implements WebMvcConfigurer {
         registration.addPathPatterns(
                 "/resume",
                 "/applied",
-                "/apply",
-                "/revoke",
+                "/apply/*",
+                "/addfavorite/*",
+                "/revoke/*",
                 "/favorite",
                 "/addfavorite",
                 "/delfavorite"

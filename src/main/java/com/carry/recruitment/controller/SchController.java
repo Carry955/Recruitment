@@ -58,6 +58,7 @@ public class SchController {
     @RequestMapping(value = "/sch/stuedit/{stu_id}", method = RequestMethod.GET)
     public String stuEdit(Model model, HttpServletRequest request, @PathVariable String stu_id){
         model.addAttribute("editable", true);
+        System.out.println(model.getAttribute(""));
         return stuInfo(model, request, stu_id);
     }
     @RequestMapping(value = "/sch/stuedit/{stu_id}", method = RequestMethod.POST)

@@ -37,4 +37,8 @@ public class Skill {
     public void setLevel(String level) {
         this.level = level;
     }
+
+    public String toString(){
+        return this.skill;
+    }
 }

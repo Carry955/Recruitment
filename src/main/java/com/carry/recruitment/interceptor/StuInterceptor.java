@@ -22,10 +22,12 @@ public class StuInterceptor implements HandlerInterceptor {
         }
         return false;
     }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if (request.getMethod().equals("POST")){
+//        if (request.getMethod().equals("POST")){
+//            return;
+//        }
+        if(modelAndView == null){
             return;
         }
         Stu stu = (Stu)request.getSession().getAttribute("stu");

@@ -37,7 +37,11 @@ public class Company {
     }
 
     public void setLogo(String logo) {
-        this.logo = logo;
+        if(logo.equals("")){
+            this.logo = "/img/company.jpg";
+        }else{
+            this.logo = logo;
+        }
     }
 
     public String getInfo() {

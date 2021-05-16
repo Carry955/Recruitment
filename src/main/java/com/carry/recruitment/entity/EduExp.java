@@ -73,4 +73,8 @@ public class EduExp {
     public void setDescp(String descp) {
         this.descp = descp;
     }
+
+    public String toString(){
+        return this.course+this.degree+this.descp+this.englevel+this.major+this.university;
+    }
 }

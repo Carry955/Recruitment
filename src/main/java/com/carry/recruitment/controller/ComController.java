@@ -1,11 +1,11 @@
 package com.carry.recruitment.controller;
 
-import com.carry.recruitment.entity.Apply;
-import com.carry.recruitment.entity.Company;
-import com.carry.recruitment.entity.Hr;
-import com.carry.recruitment.entity.Job;
+import com.baidu.nlp.LAC;
+import com.carry.recruitment.entity.*;
 import com.carry.recruitment.service.ComService;
 import com.carry.recruitment.service.JobService;
+import com.carry.recruitment.util.LacUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,13 +45,17 @@ public class ComController {
 
     @RequestMapping(value = "/com/cominfo", method = RequestMethod.GET)
     public String comInfo(Model model, HttpServletRequest request){
+        Hr hr = (Hr)request.getSession().getAttribute("hr");
+
+        Company company = comService.getCompany(hr.getCompany().getId());
+        model.addAttribute("company", company);
         return "com/cominfo";
     }
 
     @RequestMapping(value = "/com/credit/{company_id}", method = RequestMethod.GET)
     public String apply(Model model, HttpServletRequest request, @PathVariable int company_id){
         comService.credit(company_id);
-        return "redirect:/com/index";
+        return "redirect:/com/cominfo";
     }
     @RequestMapping(value = "/com/editinfo/{company_id}", method = RequestMethod.POST)
     public String editInfo(Model model, HttpServletRequest request, @PathVariable int company_id, Company company){
@@ -131,11 +135,34 @@ public class ComController {
 
     @RequestMapping(value = "/com/posted", method = RequestMethod.POST)
     @ResponseBody
-    public ArrayList<Apply> posted(Model model, HttpServletRequest request){
+    public Map<String, ArrayList> posted(Model model, HttpServletRequest request){
         Hr hr = (Hr)request.getSession().getAttribute("hr");
         String status = request.getParameter("status");
+        Map<String, ArrayList> map = new HashMap<>();
         ArrayList<Apply> applys = comService.getAppies(hr.getCompany().getId(), status);
-        System.out.println(applys);
-        return applys;
+        map.put("applys", applys);
+        ArrayList<ArrayList> words = new ArrayList<>();
+        for(Apply item: applys){
+            ArrayList<String> word = new ArrayList<>();
+            Lac lac = LacUtil.run(item.getResume().toString());
+            for(int i=0; i<lac.getTags().size(); i++){
+                if(lac.getTags().get(i).equals("ORG")
+                        || lac.getTags().get(i).equals("nz")
+                        || lac.getTags().get(i).equals("/honor")
+                        || lac.getTags().get(i).equals("/political")){
+                    word.add(lac.getWords().get(i));
+                }
+            }
+            words.add(word);
+        }
+        map.put("words", words);
+        return map;
+    }
+
+    @RequestMapping(value = "/com/resume", method = RequestMethod.POST)
+    @ResponseBody
+    public Resume resumeDetail(Model model, HttpServletRequest request, @Param("id") int id ){
+        Resume resume = comService.getResume(id);
+        return resume;
     }
 }

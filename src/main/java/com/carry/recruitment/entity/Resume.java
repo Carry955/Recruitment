@@ -13,7 +13,7 @@ public class Resume {
     private String birthday;
     private String gender;
     private String marry;
-    private String Political;
+    private String political;
     private String province;
     private String city;
     private String tel;
@@ -97,11 +97,11 @@ public class Resume {
     }
 
     public String getPolitical() {
-        return Political;
+        return political;
     }
 
     public void setPolitical(String political) {
-        Political = political;
+        this.political = political;
     }
 
     public String getProvince() {
@@ -174,5 +174,14 @@ public class Resume {
 
     public void setSkills(ArrayList<Skill> skills) {
         this.skills = skills;
+    }
+
+    public String toString(){
+        return  appraisal
+                +gender
+                +political
+                +edus.get(0).toString()
+                +works.get(0).toString()
+                +skills.get(0).toString();
     }
 }

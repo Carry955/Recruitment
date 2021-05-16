@@ -60,7 +60,7 @@
         select * from t_skill where stu_id = #{stu_id};
     </select>
 
-    <select id="getResume" resultType="Resume">
+    <select id="getResume" resultMap="ResumeMap">
         select * from t_resume where id = #{resume_id};
     </select>
 

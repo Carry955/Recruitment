@@ -75,4 +75,7 @@ public class WorkExp {
     public void setInfo(String info) {
         this.info = info;
     }
+    public String toString() {
+        return this.position+this.wcity+this.info+this.company;
+    }
 }
