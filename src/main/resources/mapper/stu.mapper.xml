@@ -10,8 +10,8 @@
         select * from t_stu where id=#{stu_id};
     </select>
     <insert id="add">
-        insert into t_stu(id, name, gender, college, major) values(
-            #{id}, #{name}, #{gender}, #{college}, #{major}
+        insert into t_stu(id, name, gender, college, major, password) values(
+            #{id}, #{name}, #{gender}, #{college}, #{major}, "123456"
         );
     </insert>
     <delete id="del">

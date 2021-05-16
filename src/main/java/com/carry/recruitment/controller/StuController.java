@@ -74,7 +74,9 @@ public class StuController {
     public String getResume(Model model, HttpServletRequest request, Resume resume){
             Stu stu = (Stu)request.getSession().getAttribute("stu");
             ArrayList<Resume> resumes = stuService.getResume(stu.getId());
-            model.addAttribute("resume", resumes.get(0));
+            if(resumes.size()>0){
+                model.addAttribute("resume", resumes.get(0));
+            }
             return "stu/myResume";
     }
     @RequestMapping(value = "/resume", method = RequestMethod.POST)
