@@ -1,6 +1,5 @@
 package com.carry.recruitment.entity;
 
-import java.util.ArrayList;
 
 public class Apply {
     private int id;

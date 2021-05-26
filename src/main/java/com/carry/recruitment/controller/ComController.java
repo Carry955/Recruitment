@@ -2,6 +2,7 @@ package com.carry.recruitment.controller;
 
 import com.baidu.nlp.LAC;
 import com.carry.recruitment.entity.*;
+import com.carry.recruitment.mapper.ApplyMapper;
 import com.carry.recruitment.service.ComService;
 import com.carry.recruitment.service.JobService;
 import com.carry.recruitment.util.LacUtil;
@@ -26,6 +27,7 @@ public class ComController {
     @Autowired
     private JobService jobService;
 
+
     @RequestMapping(value = "/com", method = RequestMethod.GET)
     public String index(Model model){
         return "com/login";
@@ -33,8 +35,12 @@ public class ComController {
 
     @RequestMapping(value = "/com/login", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, Hr hr){
-        comService.login(hr, request);
-        return "redirect:/com/cominfo";
+        if(comService.login(hr, request)){
+            return "redirect:/com/cominfo";
+        }else{
+            model.addAttribute("msg", "用户名或密码错误");
+            return index(model);
+        }
     }
     @RequestMapping(value = "/com/logout", method = RequestMethod.GET)
     public String logout(Model model, HttpServletRequest request){
@@ -43,12 +49,22 @@ public class ComController {
         return "redirect:/com";
     }
 
+    @RequestMapping(value = "/com/register", method = RequestMethod.POST)
+    public Map<String, String> register(Model model, HttpServletRequest request){
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        Map<String, String> map = new HashMap<>();
+        map.put("status", "success");
+        return map;
+    }
+
     @RequestMapping(value = "/com/cominfo", method = RequestMethod.GET)
     public String comInfo(Model model, HttpServletRequest request){
         Hr hr = (Hr)request.getSession().getAttribute("hr");
-
         Company company = comService.getCompany(hr.getCompany().getId());
         model.addAttribute("company", company);
+        hr.setCompany(company);
+        request.getSession().setAttribute("hr", hr);
         return "com/cominfo";
     }
 
@@ -143,6 +159,9 @@ public class ComController {
         map.put("applys", applys);
         ArrayList<ArrayList> words = new ArrayList<>();
         for(Apply item: applys){
+            if(item.getStatus().equals("已投递")){
+                comService.read(item.getId());
+            }
             ArrayList<String> word = new ArrayList<>();
             Lac lac = LacUtil.run(item.getResume().toString());
             for(int i=0; i<lac.getTags().size(); i++){
@@ -164,5 +183,23 @@ public class ComController {
     public Resume resumeDetail(Model model, HttpServletRequest request, @Param("id") int id ){
         Resume resume = comService.getResume(id);
         return resume;
+    }
+
+    @RequestMapping(value = "/com/accept", method = RequestMethod.POST)
+    @ResponseBody
+    public Map accept(Model model, HttpServletRequest request, @Param("id") int id){
+        comService.accept(id);
+        Map<String, String> res = new HashMap<>();
+        res.put("status", "success");
+        return res;
+    }
+
+    @RequestMapping(value = "com/refuse", method = RequestMethod.POST)
+    @ResponseBody
+    public Map refuse(Model model, HttpServletRequest request, @Param("id") int id){
+        comService.refuse(id);
+        Map<String, String> res = new HashMap<>();
+        res.put("status", "success");
+        return res;
     }
 }

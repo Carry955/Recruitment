@@ -7,6 +7,7 @@ import com.carry.recruitment.entity.Teacher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Map;
 
 public interface SchService {
     public boolean login(Teacher teacher, HttpServletRequest request);
@@ -21,4 +22,5 @@ public interface SchService {
     public int editStu(Stu stu);
     public Stu getStu(String stu_id);
     public int addStus(ArrayList<Stu> stus);
+    public ArrayList<ArrayList<Map<String, Object>>> getAnalysis();
 }

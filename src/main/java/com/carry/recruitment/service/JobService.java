@@ -13,4 +13,6 @@ public interface JobService {
     public Map<String, Object> search(String keyword, String city, String category, int page, int rows);
     public int addJob(Job job);
     public int delJob(int job_id);
+    public boolean isApplied(String id ,int job_id);
+    public boolean isFavorited(String id, int job_id);
 }

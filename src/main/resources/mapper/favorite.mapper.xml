@@ -18,4 +18,7 @@
     <delete id="delFav">
         delete from t_favorite where id=#{id} and stu_id=#{stu_id};
     </delete>
+    <select id="getFavByStuId" resultType="Favorite">
+        select * from t_favorite where stu_id = #{stu_id} and job_id = #{job_id};
+    </select>
 </mapper>

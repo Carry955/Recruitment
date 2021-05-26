@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Map;
 
 @Service("schService")
 public class SchServiceImpl implements SchService {
@@ -23,9 +24,15 @@ public class SchServiceImpl implements SchService {
     @Autowired
     private StuMapper stuMapper;
 
+    @Autowired
+    private ApplyMapper applyMapper;
+
     @Override
     public boolean login(Teacher teacher, HttpServletRequest request) {
         Teacher mTeacher = teacherMapper.getOne(teacher.getUsername());
+        if(mTeacher == null){
+            return false;
+        }
         if(teacher.getPassword().equals(mTeacher.getPassword())){
             request.getSession().setAttribute("teacher", mTeacher);
             return true;
@@ -57,7 +64,6 @@ public class SchServiceImpl implements SchService {
 
     @Override
     public int revoke(int credit_id) {
-        System.out.println(credit_id);
         return teacherMapper.revoke(credit_id);
     }
 
@@ -89,6 +95,14 @@ public class SchServiceImpl implements SchService {
     @Override
     public int addStus(ArrayList<Stu> stus) {
         return stuMapper.batchInsert(stus);
+    }
+
+    @Override
+    public ArrayList<ArrayList<Map<String, Object>>> getAnalysis() {
+        ArrayList<ArrayList<Map<String, Object>>> list = new ArrayList<>();
+        list.add(applyMapper.getCategoryNum());
+        list.add(applyMapper.getMajorNum());
+        return list;
     }
 
 }

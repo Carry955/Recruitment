@@ -57,7 +57,7 @@
 					</div>
 				</div>
 				<button id="login-btn" class="nav-item btn btn-outline-primary" style="display: none;">登录</button>
-				<button id="register-btn" class="nav-item btn btn-outline-primary" style="display: block;">注册</button>
+				<button id="register-btn" class="nav-item btn btn-outline-primary disabled" disabled style="display: block;">注册</button>
 			</nav>
 		</div>
 
@@ -97,5 +97,12 @@
 				</form>
 			</div>
 		</div>
+		<script inline="javascript">
+			var msg = "[[${msg}]]";
+			if("" != msg){
+				alert(msg);
+				window.location.href = "/sch";
+			}
+		</script>
 	</body>
 </html>

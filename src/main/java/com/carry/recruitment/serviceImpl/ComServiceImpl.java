@@ -30,12 +30,21 @@ public class ComServiceImpl implements ComService {
     @Override
     public boolean login(Hr hr, HttpServletRequest request) {
         Hr mHr = hrMapper.getOne(hr.getUsername());
+        if(mHr == null){
+            return false;
+        }
         if (hr.getPassword().equals(mHr.getPassword())){
             request.getSession().setAttribute("hr", mHr);
             return true;
         }else{
             return false;
         }
+    }
+
+    @Override
+    public int register(String username, String password) {
+        Company company = new Company();
+        return hrMapper.addOne(username, password);
     }
 
     @Override
@@ -75,5 +84,19 @@ public class ComServiceImpl implements ComService {
     @Override
     public Resume getResume(int id) {
         return resumeMapper.getResume(id);
+    }
+
+    @Override
+    public int accept(int id) {
+        return applyMapper.setStatus(id, "已录取");
+    }
+
+    @Override
+    public int refuse(int id) {
+        return applyMapper.setStatus(id, "已拒绝");
+    }
+
+    public int read(int id){
+        return applyMapper.setStatus(id, "已阅读");
     }
 }

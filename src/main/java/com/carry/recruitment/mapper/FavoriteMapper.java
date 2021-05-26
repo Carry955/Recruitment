@@ -11,4 +11,5 @@ public interface FavoriteMapper {
     public int addFav(Favorite favorite);
     public ArrayList<Favorite> getAll(String stu_id);
     public int delFav(Favorite favorite);
+    public ArrayList<Favorite> getFavByStuId(String stu_id, int job_id);
 }

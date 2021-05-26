@@ -178,8 +178,10 @@
 		            </div>
 					
 					<div class="mt-4 d-flex flex-column align-items-center">
-					    <a class="btn btn-primary btn-block" th:href="@{'/apply/'+*{id}}"><i class="mdi mdi-send mr-2">投递这个职位</i></a>
-						<a class="btn btn-info btn-block" th:href="@{'/addfavorite/'+*{id}}">收藏</a>
+					    <a class="btn btn-primary btn-block" th:unless="${isApplied}" th:href="@{'/apply/'+*{id}}"><i class="mdi mdi-send mr-2">投递这个职位</i></a>
+						<a class="btn btn-primary btn-block disabled" th:if="${isApplied}"><i class="mdi mdi-send mr-2">已投递</i></a>
+						<a class="btn btn-info btn-block" th:unless="${isFavorited}" th:href="@{'/addfavorite/'+*{id}}">收藏</a>
+						<a class="btn btn-info btn-block disabled" th:if="${isFavorited}" >已收藏</a>
 					</div>
 		
 		            <div class="rounded border mt-4 mb-4" style="padding: 24px 0px 24px 24px;">

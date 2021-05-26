@@ -10,5 +10,9 @@
         <association property="company" column="company_id" javaType="Company" select="com.carry.recruitment.mapper.CompanyMapper.getCompany">
         </association>
     </resultMap>
+    <insert id="addOne">
+        insert into t_hr(username, password) values
+
+    </insert>
 
 </mapper>

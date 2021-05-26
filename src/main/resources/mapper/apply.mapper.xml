@@ -23,4 +23,19 @@
     <delete id="revoke">
         delete from t_applied where id=#{id}
     </delete>
+
+    <update id="setStatus">
+        update t_applied
+            set status = #{status}
+            where id = #{id};
+    </update>
+    <select id="getApplyByStuId" resultType="Apply">
+        select * from t_applied where stu_id = #{stu_id} and job_id = #{job_id};
+    </select>
+    <select id="getCategoryNum" resultType="java.util.Map">
+        select j.category as name, count(a.id) as value from t_applied a, t_job j where a.status in ("已拒绝", "已录取") and a.job_id = j.id group by j.category;
+    </select>
+    <select id="getMajorNum" resultType="java.util.Map">
+        select s.major as name, count(a.id) as value from t_applied a, t_stu s where a.status in ("已拒绝", "已录取") and a.stu_id = s.id group by s.major;
+    </select>
 </mapper>

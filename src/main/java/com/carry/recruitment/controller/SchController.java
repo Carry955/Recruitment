@@ -33,8 +33,12 @@ public class SchController {
 
     @RequestMapping(value = "/sch/login", method = RequestMethod.POST)
     public String login(Model model, HttpServletRequest request, Teacher teacher){
-        schService.login(teacher, request);
-        return "redirect:/sch/stumng";
+        if(schService.login(teacher, request)){
+            return "redirect:/sch/stumng";
+        }else{
+            model.addAttribute("msg", "用户名或密码错误！");
+            return index(model, request);
+        }
     }
 
     @RequestMapping(value = "/sch/logout", method = RequestMethod.GET)
@@ -58,7 +62,6 @@ public class SchController {
     @RequestMapping(value = "/sch/stuedit/{stu_id}", method = RequestMethod.GET)
     public String stuEdit(Model model, HttpServletRequest request, @PathVariable String stu_id){
         model.addAttribute("editable", true);
-        System.out.println(model.getAttribute(""));
         return stuInfo(model, request, stu_id);
     }
     @RequestMapping(value = "/sch/stuedit/{stu_id}", method = RequestMethod.POST)
@@ -103,9 +106,6 @@ public class SchController {
     public ArrayList<Credit> credit_get(Model model, HttpServletRequest request){
         String status = request.getParameter("status");
         ArrayList<Credit> credits = schService.getCredits(status);
-        for(int i=0; i<credits.size(); i++){
-            System.out.println(credits.get(i).getId());
-        }
         return credits;
     }
 
@@ -121,8 +121,13 @@ public class SchController {
     }
 
     @RequestMapping(value = "/sch/analyser", method = RequestMethod.GET)
-    public String analyser(Model model, HttpServletRequest request){
+    public String analyser_get(Model model, HttpServletRequest request){
         return "sch/analyser";
+    }
+    @RequestMapping(value = "/sch/analyser", method = RequestMethod.POST)
+    @ResponseBody
+    public ArrayList<ArrayList<Map<String, Object>>> analyser(Model model, HttpServletRequest request){
+        return schService.getAnalysis();
     }
 
     class StuDataListener extends AnalysisEventListener<Stu>{

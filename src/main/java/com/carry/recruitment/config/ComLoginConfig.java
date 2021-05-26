@@ -22,7 +22,10 @@ public class ComLoginConfig implements WebMvcConfigurer {
             "/com/jobinfo/*",
             "/com/editjob/*",
             "/com/editjob/*",
-            "/com/posted"
+            "/com/posted",
+            "/com/accept",
+            "/com/refuse",
+            "/com/read"
         );
     }
 }

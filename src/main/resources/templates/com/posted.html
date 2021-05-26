@@ -330,10 +330,14 @@
 		</div>
 		<script>
 			getApplys("nav-all");
+			var current_tag;
+			var current_status;
 			$('#nav-tab>a').on("click", function(){
 				getApplys($(this).attr('id').replace("-tab", ""), $(this).attr('name'));
 			});
 			function getApplys(viewId, status = ''){
+				current_tag = viewId;
+				current_status = status;
 				$.ajax({
 					type: "POST",
 					url: "/com/posted",
@@ -359,14 +363,52 @@
 							}
 							card += '</div><div class="float-right">'+
 									'<a class="btn btn-primary" href="/com/jobinfo/'+apply.job.id+'">职位详情</a> '+
-									'<a class="btn btn-secondary resume" href="javascript:void(0);"  onclick="resumeDetail('+apply.resume.id+')">简历详情</a>'+
-									'</div>'+
+									'<a class="btn btn-info resume" href="javascript:void(0);"  onclick="resumeDetail('+apply.resume.id+')">简历详情</a> ';
+
+							if(apply.status != "已录取" && apply.status != "已拒绝"){
+								card += '<a class="btn btn-success" href="javascript:void(0);" onclick="accept('+apply.id+')">录取</a> '+
+										'<a class="btn btn-danger" href="javascript:void(0);" onclick="refuse('+apply.id+')">拒绝</a>';
+							}
+							if(apply.status == "已录取"){
+								card += '<a class="btn btn-success disabled">已录取</a>';
+							}else if(apply.status == "已拒绝") {
+								card += '<a class="btn btn-danger disabled">已拒绝</a>';
+							}
+							card += '</div>'+
 									'</div>'+
 									'</div>';
+
 							$('#'+viewId).append(
 								card
 							);
 						}
+					}
+				});
+			}
+
+			function accept(id){
+				$.ajax({
+					type: "POST",
+					url: "/com/accept",
+					data: {
+						id: id
+					},
+					dataType: "json",
+					success: function(data){
+						getApplys(current_tag, current_status);
+					}
+				});
+			}
+			function refuse(id){
+				$.ajax({
+					type: "POST",
+					url: "/com/refuse",
+					data: {
+						id: id
+					},
+					dataType: "json",
+					success: function(data){
+						getApplys(current_tag, current_status);
 					}
 				});
 			}

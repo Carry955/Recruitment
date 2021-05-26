@@ -9,33 +9,39 @@
         insert into t_resume(stu_id, cretime, avator, `name`, appraisal, birthday, gender, marry, political, province, city, tel, email, web, address) values (
             #{stu_id}, #{cretime}, #{avator}, #{name}, #{appraisal}, #{birthday}, #{gender}, #{marry}, #{political}, #{province}, #{city}, #{tel}, #{email}, #{web}, #{address}
         );
-        insert into t_edu(stu_id, university, `degree`, major, englevel, course, descp) values
-        <foreach collection="edus" item="edu" separator=",">
-            (#{stu_id}, #{university}, #{degree}, #{major}, #{englevel}, #{course}, #{descp})
-        </foreach>
-        ;
-        insert into t_work(stu_id, company, `position`, wcity, starttime, endtime, info) values
-        <foreach collection="works" item="work" separator=",">
-            (#{stu_id}, #{company}, #{position}, #{wcity}, #{startTime}, #{endTime}, #{info})
-        </foreach>
-        ;
     </insert>
+    <insert id="insertEdu">
+        insert into t_edu(stu_id, university, `degree`, major, englevel, course, descp) values
+            (#{stu_id}, #{university}, #{degree}, #{major}, #{englevel}, #{course}, #{descp})
+    </insert>
+    <insert id="insertWork">
+        insert into t_work(stu_id, company, `position`, wcity, starttime, endtime, info) values
+            (#{stu_id}, #{company}, #{position}, #{wcity}, #{startTime}, #{endTime}, #{info})
+    </insert>
+    <insert id="insertSkill">
+        insert into t_skill(stu_id, skill, level) values
+            (#{stu_id}, #{skill}, #{level})
+    </insert>
+
     <update id="update">
         update t_resume
             set avator = #{avator}, `name` = #{name}, appraisal = #{appraisal}, birthday = #{birthday}, gender=#{gender}, marry = #{marry}, political = #{political}, province = #{province}, city = #{city}, tel = #{tel}, email = #{email}, web = #{web}, address = #{address}
             where id = #{id};
-<!--        <foreach collection="edus" item="edu" separator=";">-->
-<!--            update t_edu-->
-<!--            set university = #{edu.university}, `degree` = #{edu.degree}, major = #{edu.major}, englevel = #{edu.englevel}, course = #{edu.course}, descp = #{edu.descp}-->
-<!--            where stu_id = #{edu.stu_id}-->
-<!--        </foreach>-->
-<!--            ;-->
-<!--        <foreach collection="works" item="work" separator=";">-->
-<!--            update t_work-->
-<!--            set company = #{work.company}, `position` = #{work.position}, wcity = #{work.wcity}, starttime = #{work.startTime}, endtime = #{work.endTime}, info = #{work.info}-->
-<!--            where stu_id = #{work.stu_id}-->
-<!--        </foreach>-->
-<!--            ;-->
+    </update>
+    <update id="updateEdu">
+        update t_edu
+            set university = #{university}, degree = #{degree}, major = #{major}, englevel = #{englevel}, course=#{course}, descp=#{descp}
+            where id = #{id};
+    </update>
+    <update id="updateWork">
+        update t_work
+            set company = #{company}, position = #{position}, wcity = #{wcity}, starttime = #{startTime}, endtime = #{endTime}, info = #{info}
+            where id = #{id};
+    </update>
+    <update id="updateSkill">
+        update t_skill
+            set skill = #{skill}, level = #{level}
+            where id = #{id};
     </update>
 
 <!--  获取数据  -->

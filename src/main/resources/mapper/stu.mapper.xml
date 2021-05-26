@@ -23,9 +23,9 @@
             where id = #{id};
     </update>
     <insert id="batchInsert">
-        insert into t_stu(id, name, gender, address, email, tel, college, major) values
-        <foreach collection="stus" item="stu" separator=",">
-            (#{stu.id}, #{stu.name}, #{stu.gender}, #{stu.address}, #{stu.email}, #{stu.tel}, #{stu.college}, #{stu.major})
+        insert into t_stu(id, name, gender, address, email, tel, img, password, college, major) values
+        <foreach collection="stus" item="stu" index="index" separator=",">
+            (#{stu.id}, #{stu.name}, #{stu.gender}, #{stu.address}, #{stu.email}, #{stu.tel}, "/img/student.png", "123456", #{stu.college}, #{stu.major})
         </foreach>
     </insert>
 </mapper>

@@ -1,6 +1,8 @@
 package com.carry.recruitment.serviceImpl;
 
 import com.carry.recruitment.entity.Job;
+import com.carry.recruitment.mapper.ApplyMapper;
+import com.carry.recruitment.mapper.FavoriteMapper;
 import com.carry.recruitment.mapper.JobMapper;
 import com.carry.recruitment.service.JobService;
 import com.github.pagehelper.Page;
@@ -19,6 +21,10 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     JobMapper jobMapper;
+    @Autowired
+    ApplyMapper applyMapper;
+    @Autowired
+    FavoriteMapper favoriteMapper;
 
     @Override
     public List<Job> getAllJobs() {
@@ -53,5 +59,22 @@ public class JobServiceImpl implements JobService {
         jobMapper.delReq(job_id);
         return jobMapper.delJob(job_id);
     }
+
+    @Override
+    public boolean isApplied(String id, int job_id) {
+        if(applyMapper.getApplyByStuId(id, job_id).size()==0){
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isFavorited(String id, int job_id) {
+        if(favoriteMapper.getFavByStuId(id, job_id).size()==0){
+            return false;
+        }
+        return true;
+    }
+
 
 }

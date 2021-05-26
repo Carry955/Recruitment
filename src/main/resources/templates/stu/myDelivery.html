@@ -55,7 +55,7 @@
 					<a class="nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-all" name="" role="tab">全部</a>
 					<a class="nav-link" id="nav-applied-tab" data-toggle="tab" href="#nav-applied" name="已投递" role="tab">可撤回</a>
 					<a class="nav-link" id="nav-readed-tab" data-toggle="tab" href="#nav-readed" name="已阅读" role="tab">已阅读</a>
-					<a class="nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-done" name="已处理" role="tab">已处理</a>
+					<a class="nav-link" id="nav-done-tab" data-toggle="tab" href="#nav-done" name="已处理" role="tab">已处理</a>
 				</div>
 			</nav>
 			<div class="tab-content" id="nav-tabContent">
@@ -83,10 +83,11 @@
 					type: "POST",
 					url: "/applied",
 					data: {
-						"status":status
+						"status" : status
 					},
 					dataType: "json",
 					success: function(applys){
+						console.log(applys)
 						$('#'+viewId).empty();
 						for(var i=0; i<applys.length; i++){
 							var apply = applys[i];
@@ -98,11 +99,16 @@
 											'<a class="btn btn-primary" href="/detail/'+apply.job.id+'">职位详情</a> '+
 											'<a class="btn btn-secondary" href="/resume">简历详情</a> ';
 
-							if(apply.status == "已投递"){
+							if(apply.status == "已录取"){
+								card += '<a class="btn btn-success disabled">已录取</a>';
+							}else if(apply.status == "已拒绝"){
+								card += '<a class="btn btn-danger disabled">已拒绝</a>';
+							}else if(apply.status == "已投递"){
 								card += '<a class="btn btn-danger" href="/revoke/'+apply.id+'">撤回</a>';
 							}else{
 								card += '<a class="btn btn-danger disabled" href="/revoke/'+apply.id+'">撤回</a>';
 							}
+
 							card += '</div>'+
 									'</div>'+
 								'</div>';

@@ -30,6 +30,9 @@ public class StuServiceImpl implements StuService {
     @Override
     public boolean login(Stu stu, HttpServletRequest request) {
         Stu mStu = stuMapper.getOne(stu.getId());
+        if(mStu == null){
+            return false;
+        }
         if(stu.getPassword().equals(mStu.getPassword())){
             request.getSession().setAttribute("stu", mStu);
             return true;
@@ -49,11 +52,22 @@ public class StuServiceImpl implements StuService {
     }
 
     @Override
-    public int updateResume(Resume resume) {
-        if(resume.getId() != 0){
-            return resumeMapper.update(resume);
+    public int updateResume(String stu_id ,Resume resume) {
+        if(resume.getId() == 0){
+            int res = 0;
+            resume.setAvator("/img/student.png");
+            res += resumeMapper.insertEdu(resume.getEdus().get(0));
+            res += resumeMapper.insertWork(resume.getWorks().get(0));
+            res += resumeMapper.insertSkill(resume.getSkills().get(0));
+            res += resumeMapper.insert(resume);
+            return res;
         }else{
-            return resumeMapper.insert(resume);
+            int res = 0;
+            res += resumeMapper.updateEdu(resume.getEdus().get(0));
+            res += resumeMapper.updateWork(resume.getWorks().get(0));
+            res += resumeMapper.updateSkill(resume.getSkills().get(0));
+            res += resumeMapper.update(resume);
+            return res;
         }
     }
 

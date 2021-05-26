@@ -3,9 +3,9 @@ server:
 spring:
   datasource:
     name: job
-    url: jdbc:mysql://81.68.190.70:3306/job
-    username: carry
-    password: 955955
+    url: jdbc:mysql://127.0.0.1:3306/job
+    username: root
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   web:

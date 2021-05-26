@@ -161,7 +161,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" class="btn btn-primary" value="登录"/>
+                        <input type="button" onclick="login()" class="btn btn-primary" value="登录"/>
                     </div>
                 </form>
             </div>
@@ -257,34 +257,7 @@
             </div>
             <div class="col-9">
                 <div id="jobs" class="row-cols-1">
-<!--                    <div class="card mb-4" th:each="job: ${jobs}" th:object="${job}">-->
-<!--                        <div class="card-body row">-->
-<!--                            <div class="col-10">-->
-<!--                                <h6 class="mb-2">-->
-<!--                                    <a href="#" class="text-dark"></a>-->
-<!--                                    <span class="badge badge-success ml-3 p-1" th:text="*{category}"></span>-->
-<!--                                </h6>-->
-<!--                                <p class="text-muted mb-0" th:text="*{company.name}"><i class="bi bi-building mr-2"></i></p>-->
-<!--                                <ul class="list-inline mb-0">-->
-<!--                                    <li class="list-inline-item mr-3">-->
-<!--                                        <p class="text-muted mb-0" th:text="*{city}"><i class="bi bi-geo-alt-fill mr-2"></i></p>-->
-<!--                                    </li>-->
 
-<!--                                    <li class="list-inline-item">-->
-<!--                                        <p class="text-muted mb-0" th:text="*{settime}"><i class="bi bi-clock mr-2"></i>1 Minute ago</p>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                                <a th:href="@{'/detail/'+*{id}}" class="stretched-link"></a>-->
-<!--                            </div>-->
-<!--                            <div class="col-2">-->
-<!--                                <h5 class="text-danger" th:text="*{salary}"></h5>-->
-<!--                                <div class="mt-4">-->
-<!--                                    <a class="btn btn-sm btn-primary" th:href="@{'/apply/'+*{id}}">投递</a>-->
-<!--                                    <a class="btn btn-sm btn-primary" th:href="@{'/addfavorite/'+*{id}}">收藏</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </div>
                 <div id="pagination">
                     <nav>
@@ -295,7 +268,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         pageShow(page)
         $('#search-btn').on("click", function () {
             page = 1;
@@ -313,6 +286,25 @@
                 pageShow(page);
             }
         })
+        function login(){
+            $.ajax({
+                type: "POST",
+                url: "/login",
+                data: {
+                    "id" : $("#id").val(),
+                    "password" : $("#pwd").val()
+                },
+                dataType: "json",
+                success: function(data){
+                    var status = data["status"];
+                    if(status){
+                        window.location.href = "/";
+                    }else{
+                        alert("用户名或密码错误!");
+                    }
+                }
+            });
+        }
     </script>
 </body>
 

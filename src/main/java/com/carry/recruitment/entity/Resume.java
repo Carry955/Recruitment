@@ -7,9 +7,9 @@ public class Resume {
     private int id;
     private String stu_id;
     private String cretime;
+    private String appraisal;
     private String avator;
     private String name;
-    private String appraisal;
     private String birthday;
     private String gender;
     private String marry;
@@ -23,6 +23,14 @@ public class Resume {
     private ArrayList<EduExp> edus;
     private ArrayList<WorkExp> works;
     private ArrayList<Skill> skills;
+
+    public String getAppraisal() {
+        return appraisal;
+    }
+
+    public void setAppraisal(String appraisal) {
+        this.appraisal = appraisal;
+    }
 
     public String getStu_id() {
         return stu_id;
@@ -54,14 +62,6 @@ public class Resume {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday;
-    }
-
-    public String getAppraisal() {
-        return appraisal;
-    }
-
-    public void setAppraisal(String appraisal) {
-        this.appraisal = appraisal;
     }
 
     public String getAvator() {
@@ -177,9 +177,7 @@ public class Resume {
     }
 
     public String toString(){
-        return  appraisal
-                +gender
-                +political
+        return  political
                 +edus.get(0).toString()
                 +works.get(0).toString()
                 +skills.get(0).toString();
